@@ -1,1 +1,41 @@
+Encapsulation:
+--------------
 
+It is the mechanism of wrapping data(variables) and methods(code) together into a single unit. It restricts direct access to some of an objects components. This is achieved by providing private to the data and public getter and setter methods.Encapsulation is about restricting access from OUTSIDE the class, not inside the class.
+
+Why Encapsulation is Important (Interview Keywords)
+
+✔ Data hiding
+✔ Security
+✔ Controlled access
+✔ Maintainability
+✔ Flexibility
+✔ Loose coupling
+
+How Encapsulation is Achieved in Java
+--------------------------------------
+Make variables private
+Provide public getter and setter methods
+Validate data inside setters
+=============================================================================================================================
+
+Q1. Is Encapsulation mandatory to use getters and setters?
+No. Encapsulation means controlled access, not necessarily getters/setters.
+
+Q2. Can a class with all public variables be encapsulated?
+❌ No. Data hiding is missing.
+
+Q3. Can we have encapsulation without abstraction?
+✅ Yes. They are independent concepts.
+
+Q4. Is Encapsulation compile-time or runtime?
+Compile-time (access modifiers checked at compile time).
+
+Q5. Can encapsulation improve performance?
+❌ No direct performance gain, but improves maintainability and safety.
+
+Q6. What happens if setter is private?
+Object becomes read-only from outside → still encapsulated.
+
+Q7. Why fields should not be public in Java Beans?
+Breaks encapsulation, validation, and future flexibility.
