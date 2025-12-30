@@ -56,6 +56,14 @@ Types:
 3. Hierarchical (A->B, A->C)
 4. Multiple (does not support to avoid ambiguity)
 
+INTERVIW QUES:
+
+
+========================================================================================================================================================
+
+Polymorphism: Defining one entity with multiple inheritances.
+
+
 
 
 
