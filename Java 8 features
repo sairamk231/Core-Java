@@ -1,0 +1,17 @@
+New features in java 8:
+-----------------------
+1. Interface changes
+2. Lambda expressions
+3. Functional Interfaces
+  a) Consumer  b) Supplier c) Predicate d) Function
+4. Stream API
+5. Date & Time changes
+6. Optional Class
+7. SplIterator
+8. Stringjoiner
+9. Constructor References
+10. Collection Framework changes.
+
+1. Interface Changes in JAVA 8:
+--> Before Java 8, Interface should have only abstract methods(without body)
+--> Java 8 allows the interfaces to have default and static methods.
