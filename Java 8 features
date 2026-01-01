@@ -28,5 +28,10 @@ class B implements Test{}
 class C implements Test{}
 class D implements Test{}
 
+In the above example we have only four classes that implements the interface, but imagine if there are hundreds of classes implementing an interface it will
+become very difficult to change all the classes which are implementing that interface. That's why Java 8, we have a new concept "default methods"
+
+
+
 
 
