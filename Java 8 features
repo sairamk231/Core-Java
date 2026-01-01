@@ -15,3 +15,5 @@ New features in java 8:
 1. Interface Changes in JAVA 8:
 --> Before Java 8, Interface should have only abstract methods(without body)
 --> Java 8 allows the interfaces to have default and static methods.
+
+Q) What is the advantage of having Default & Static methods in java 8? -> Default & Static methods provides backward compatibility. -> For example, if several classes such as A, B, C and D implements an interface Test then if we add a new method to the Test, we have to change the code in all the classes (A, B, C and D) that implements this interface.  
