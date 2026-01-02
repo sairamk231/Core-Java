@@ -17,6 +17,8 @@ How Encapsulation is Achieved in Java
 Make variables private
 Provide public getter and setter methods
 Validate data inside setters
+
+**Encapsulation is about restricting access from OUTSIDE the class, not inside the class.**
 =============================================================================================================================
 
 Q1. Is Encapsulation mandatory to use getters and setters?
@@ -41,27 +43,29 @@ Q7. Why fields should not be public in Java Beans?
 Breaks encapsulation, validation, and future flexibility.
 
 ====================================================================================================================================================
+class Employee {
+   private  int age;
+   public int getAge() {
+        return age;
+    }
 
-Inheritance:- It is an IS-A relationship where child class acquires all the properties and behaviours of parent class using the extends keyword.
------------
+    public void setAge(int age) {
+        if (age > 0 && age < 60) {
+            this.age = age;
+        } else {
+            throw new IllegalArgumentException("Invalid age");
+        }
+    }
+}
+public class Main {
+    public static void main(String[] args) {
+        Employee emp = new Employee();
+        emp.setAge(30);
+        System.out.println(emp.getAge());
+    }
+}
 
-uses:
------
-1. code reusability
-2. achieving method overiding (promotes runtime polymorphism)
-
-Types:
-1. single level (class A extends class B)
-2. multilevel (A->B->C)
-3. Hierarchical (A->B, A->C)
-4. Multiple (does not support to avoid ambiguity)
-
-INTERVIW QUES:
-
-
-========================================================================================================================================================
-
-Polymorphism: Defining one entity with multiple inheritances.
+OUTPUT:- 30
 
 
 
