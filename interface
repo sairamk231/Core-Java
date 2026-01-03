@@ -1,1 +1,206 @@
+Inheritance in Java is a mechanism in which one object acquires all the properties and behaviors of a parent object.
+Inheritance represents the IS-A relationship which is also known as a parent-child relationship. 
+Using Extends keyword we can achieve inheritance.
+Advantages: reusability, method overiding, loose coupling, Supports polymorphism.
+----------------------------------------------------------------------------------------------------------------------------------------------
+1. extends Keyword Rules:
+    A class can extend only one class
+    A class can implement multiple interfaces
+    extends also used by interface to extend another interface
 
+2. Constructor Inheritance:
+    Constructors are not inherited
+    Parent constructor executes first
+
+3. final with Inheritance:
+    final class	Cannot be inherited
+    final method	Cannot be overridden
+    final variable	Cannot be changed
+
+4. Inheritance vs Composition (Very Important)
+    | Inheritance             | Composition        |
+    | ----------------------- | ------------------ |
+    | IS-A                    | HAS-A              |
+    | Tight coupling          | Loose coupling     |
+    | Less flexible           | More flexible      |
+    | Compile-time dependency | Runtime dependency |
+
+5. Memory & JVM Perspective:
+    Parent & child methods loaded in Method Area
+    Object created only for child
+    Parent variables are part of child object
+    Constructor chaining happens top-down
+
+----------------------------------------------------------------------------------------------------------------------------------------------
+Advanced Features (Java 8+):-
+Static Methods: Belong to the interface itself, not to instances.
+Functional Interfaces: Interfaces with a single abstract method (SAM), used in lambda expressions. Example: Runnable, Comparator.
+----------------------------------------------------------------------------------------------------------------------------------------------
+Types: single, multilevel, hierarichal, multiple level inheritance.
+1. Single inheritance: when one class inherits properties and behaviours of parent class.
+
+2. multi level: class A->class B->class C
+     
+3. Hierarchical Inheritance: Class A, Class B, Class C ----> Class D 
+When two or more classes inherits a single class, it is known as hierarchical inheritance.
+
+4. Multiple Inheritance: 
+    class A { void show() {} }
+  class B { void show() {} }
+  // class C extends A, B ❌
+
+     this can result in issues like the diamond problem, 
+    which occurs when two superclasses share the same method or field and causes conflicts.
+    Java uses interfaces to implement multiple inheritances in order to prevent these conflicts.
+
+5. Hybrid Inheritance:
+    The hybrid inheritance is the composition of two or more types of inheritance. The main purpose of using hybrid inheritance is to modularize the code into well-defined classes.
+   Classes Son, Daughter -----> class Father-----> class GrandPa
+                        
+----------------------------------------------------------------------------------------------------------------------------------------------
+FAQs about Inheritance:
+1. Why multiple inheritance is not supported in Java?
+    To reduce the complexity and simplify the language, multiple inheritance is not supported in Java.
+
+Common Tricky Interview Questions (4+ Years):
+
+Q1. Can we override static method?
+❌ No — it is method hiding.
+
+Q2. Can we reduce visibility while overriding?
+❌ No — can only increase.
+
+Q3. Why Java doesn’t support multiple inheritance?
+    To avoid ambiguity & complexity.
+
+Q4. Is inheritance mandatory for polymorphism?
+❌ No (interfaces also support it).
+
+Q5. Can private methods be overridden?
+❌ No — they are not inherited.
+
+Q6. Can constructor be overridden?
+❌ No — constructors are not inherited.
+
+------------------------------------------------------------------------------------------------------------------------------------------
+
+Progams:
+Multi level:-
+  class Animal{  
+  void eat(){System.out.println("eating...");}  
+  }  
+  class Dog extends Animal{  
+  void bark(){System.out.println("barking...");}  
+  }  
+  class BabyDog extends Dog{  
+  void weep(){System.out.println("weeping...");}  
+  }  
+  public class Main{  
+  public static void main(String args[]){  
+  BabyDog d=new BabyDog();  
+  d.weep();  
+  d.bark();  
+  d.eat();  
+  }}  
+
+o/p:  weeping...
+      barking...
+      eating...
+----------------------------------------------------------------------------------------------------------------------------------------------
+Hierarchical:
+  Class Animal{  
+  void eat(){System.out.println("eating...");}  
+  }  
+  class Dog extends Animal{  
+  void bark(){System.out.println("barking...");}  
+  }  
+  class Cat extends Animal{  
+  void meow(){System.out.println("meowing...");}  
+  }  
+  public class Main{  
+  public static void main(String args[]){  
+  Cat c=new Cat();  
+  c.meow();  
+  c.eat();  
+  //c.bark();//C.T.Error  
+  }}  
+
+o/p: meowing...
+      eating...
+
+----------------------------------------------------------------------------------------------------------------------------------------------
+Multiple: 
+  interface Character {    
+      void attack();    
+  }    
+  interface Weapon {    
+      void use();    
+  }    
+  class Warrior implements Character, Weapon {    
+      public void attack() {    
+          System.out.println("Warrior attacks with a sword.");    
+      }    
+      public void use() {    
+          System.out.println("Warrior uses a sword.");    
+      }    
+  }    
+  class Mage implements Character, Weapon {    
+      public void attack() {    
+          System.out.println("Mage attacks with a wand.");    
+      }    
+      public void use() {    
+          System.out.println("Mage uses a wand.");    
+      }    
+  }    
+  public class Main {    
+      public static void main(String[] args) {    
+          Warrior warrior = new Warrior();    
+          Mage mage = new Mage();    
+          warrior.attack(); // Output: Warrior attacks with a sword.    
+          warrior.use(); // Output: Warrior uses a sword.    
+          mage.attack(); // Output: Mage attacks with a wand.    
+          mage.use(); // Output: Mage uses a wand.    
+      }    
+  }    
+
+o/p: Warrior attacks with a sword.
+      Warrior uses a sword.
+      Mage attacks with a wand.
+      Mage uses a wand.
+
+----------------------------------------------------------------------------------------------------------------------------------------------
+
+Hybrid Interface:
+    class C    
+    {    
+    public void disp()    
+    {    
+    System.out.println("C");    
+    }    
+    }    
+    class A extends C    
+    {    
+    public void disp()    
+    {    
+    System.out.println("A");    
+    }    
+    }    
+    class B extends C    
+    {    
+    public void disp()    
+    {    
+    System.out.println("B");    
+    }       
+    }    
+    public class D extends A    
+    {    
+    public void disp()    
+    {    
+    System.out.println("D");    
+    }    
+        public static void main(String args[])    
+        {    
+        D obj = new D();    
+        obj.disp();    
+        }    
+        }
