@@ -118,6 +118,34 @@ Methods → public (only required ones)
    Access control enforced at compile time
    JVM ensures access only via permitted methods
    Method calls resolved via reference
+
+11. Encapsulation in Spring Boot (Very Important)
+   DTO Example
+   public class UserDTO {
+       private String username;
+       private String password;
+   
+       // getters & setters
+   }
+   Why?
+   Protect internal entity structure
+   Prevent exposing sensitive fields
+
+Entity Encapsulation (JPA)
+@Entity
+class User {
+    @Id
+    private Long id;
+
+    private String email;
+
+    protected User() {} // JPA
+
+    public String getEmail() {
+        return email;
+    }
+}
+👉 Setters can be restricted to enforce invariants.
 ------------------------------------------------------------------------------------------------------------------------------
 
 14. Common Tricky Interview Questions (4+ Years)
