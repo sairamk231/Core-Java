@@ -164,6 +164,34 @@ class UpiPayment implements Payment {
     }
 }
 
+13. Polymorphism in Spring Boot (🔥 Extremely Important)
+Dependency Injection Example:
+@Service
+class OrderService {
+
+    private final Payment payment;
+
+    public OrderService(Payment payment) {
+        this.payment = payment;
+    }
+}
+
+At runtime:
+  Spring injects actual implementation
+  Behavior changes without code modification
+
+Multiple Implementations
+  @Qualifier("upiPayment")
+  @Autowired
+  private Payment payment;
+
+14. Polymorphism & Spring AOP
+Spring creates proxy objects
+Method calls resolved dynamically
+Proxy types:
+  JDK Proxy → interface-based
+  CGLIB → class-based (uses inheritance)
+
 17. Common Tricky Interview Questions (4+ Years)
 Q1. Can constructors be polymorphic?
 ❌ No — constructors are not inherited.
