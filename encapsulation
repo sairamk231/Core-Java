@@ -67,8 +67,95 @@ public class Main {
 
 OUTPUT:- 30
 
+🔑 Key Point
+Even though you change age inside the class, encapsulation is still achieved because:
+   Access is controlled
+   Validation logic exists
+   External code cannot directly modify age
+
+4. Addressing a Very Common Interview Confusion 🔥
+❓ Question: “Age is private, but I’m still changing it using setter. How is encapsulation achieved?”
+
+✅ Correct Answer:
+Encapsulation does not mean data cannot change.
+It means data cannot be changed directly without control.
+
+✔ Change happens through:
+Business rules
+Validation
+Controlled access
+
+❌ Without encapsulation:
+person.age = -10; // No control ❌
+
+✔ With encapsulation:
+person.setAge(-10); // Blocked by validation ✅
+
+5. Encapsulation vs Data Hiding (Tricky)
+| Encapsulation             | Data Hiding           |
+| ------------------------- | --------------------- |
+| Concept                   | Technique             |
+| Bundling + access control | Restrict access       |
+| Uses getters/setters      | Uses access modifiers |
+
+👉 Encapsulation includes data hiding, but data hiding alone is not encapsulation.
+
+6. Access Modifiers & Encapsulation
+| Modifier  | Visibility         |
+| --------- | ------------------ |
+| private   | Same class only    |
+| default   | Same package       |
+| protected | Package + subclass |
+| public    | Everywhere         |
 
 
+🔑 Best Practice:
+Variables → private
+Methods → public (only required ones)
 
+9. Encapsulation & JVM Memory
+   Private variables stored in heap
+   Access control enforced at compile time
+   JVM ensures access only via permitted methods
+   Method calls resolved via reference
+------------------------------------------------------------------------------------------------------------------------------
+
+14. Common Tricky Interview Questions (4+ Years)
+Q1. Is encapsulation only about getters & setters?
+❌ No
+✔ It’s about controlled access & behavior enforcement
+
+Q2. Can encapsulation exist without setters?
+✅ Yes (Immutable classes)
+
+Q3. Does private guarantee security?
+❌ No (Reflection can break it)
+
+Q4. Can we override private methods?
+❌ No — they are not inherited
+
+Q5. Is encapsulation a runtime concept?
+❌ Mostly compile-time
+✔ But enforced at runtime too
+
+Q6. How does Lombok affect encapsulation?
+Lombok does not break encapsulation
+Generates controlled access methods
+
+15. Real-Time Use Cases
+   DTOs
+   Entities
+   Domain models
+   Configuration properties
+   Security-sensitive data
+   API contracts
+
+16. Common Interview One-Liners
+“Encapsulation is about control, not restriction.”
+“Private data with public behavior.”
+“Data protection through controlled access.”
+
+17. Interview Closing Statement (Use This)
+“Encapsulation ensures object integrity by hiding internal state and exposing only validated operations, which is critical for secure and maintainable Spring Boot applications.”
 
 
