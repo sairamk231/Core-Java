@@ -56,7 +56,26 @@ When two or more classes inherits a single class, it is known as hierarchical in
 5. Hybrid Inheritance:
     The hybrid inheritance is the composition of two or more types of inheritance. The main purpose of using hybrid inheritance is to modularize the code into well-defined classes.
    Classes Son, Daughter -----> class Father-----> class GrandPa
-                        
+
+14. Inheritance in Spring Boot
+
+    ❌ Not recommended for business logic
+    ✅ Prefer interfaces + composition
+    Service Layer Example
+    @Service
+    class BaseService {
+        void log() {
+            System.out.println("Logging");
+        }
+    }
+    
+    @Service
+    class UserService extends BaseService {
+        void process() {
+            log();
+        }
+    }
+
 ----------------------------------------------------------------------------------------------------------------------------------------------
 FAQs about Inheritance:
 1. Why multiple inheritance is not supported in Java?
