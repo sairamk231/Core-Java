@@ -1,0 +1,196 @@
+Polymorphism means “many forms”.It means defining one entity with multiple behaviours
+-> In java we have following 2 types of poly morphisms.
+1. Compile time polymorphism
+2. Runtime Polymorphism
+
+| Overloading           | Overriding           |
+| --------------------- | -------------------- |
+| Compile-time          | Runtime              |
+| Same class            | Parent-child         |
+| Static binding        | Dynamic binding      |
+| No inheritance needed | Inheritance required |
+
+In Java, polymorphism allows:
+  Same method call
+  To behave differently
+  Based on the actual object at runtime
+
+Polymorphism allows one interface or parent reference to represent multiple object forms.
+Polymorphism depends on inheritance or interfaces
+
+| Benefit             | Explanation                                  |
+| ------------------- | -------------------------------------------- |
+| Loose coupling      | Code depends on abstraction                  |
+| Extensibility       | New behavior without modifying existing code |
+| Maintainability     | Removes large if-else blocks                 |
+| Runtime flexibility | Behavior decided at runtime                  |
+| Core of Spring      | DI, AOP, Proxies                             |
+
+3.1 Compile-Time Polymorphism
+✔ Achieved using method overloading
+
+3.2 Runtime Polymorphism
+✔ Achieved using method overriding + inheritance/interface
+
+4. Compile-Time Polymorphism (Method Overloading)
+Definition
+
+Multiple methods with:
+Same name
+Different parameter list (type / count / order)
+
+class Calculator {
+
+    int add(int a, int b) {
+        return a + b;
+    }
+
+    double add(double a, double b) {
+        return a + b;
+    }
+}
+
+Key Points:
+  Resolved at compile time
+  Return type alone cannot differentiate methods
+  Can overload:
+    static methods
+    constructors
+  Does not depend on inheritance
+
+❌ Invalid:
+int add(int a, int b) {}
+double add(int a, int b) {} // ❌ return type only
+
+
+5. Runtime Polymorphism (Most Important Topic)
+Definition
+  Method call is resolved at runtime based on object type, not reference type.
+
+class Parent {
+    void show() {
+        System.out.println("Parent");
+    }
+}
+
+class Child extends Parent {
+    @Override
+    void show() {
+        System.out.println("Child");
+    }
+}
+
+Parent p = new Child();
+p.show();  // Child
+
+👉 Rule to remember
+
+Reference decides accessibility, object decides behavior.
+
+6. Conditions for Runtime Polymorphism
+  ✔ IS-A relationship (inheritance / interface)
+  ✔ Method overriding
+  ✔ Parent reference
+  ✔ Child object
+  ❌ static methods
+  ❌ final methods
+  ❌ private methods
+
+7. How Runtime Polymorphism Works (JVM Internals 🔥)
+    Compiler checks method existence using reference type
+    JVM resolves method call using actual object
+    Uses Dynamic Method Dispatch
+    Internally uses Virtual Method Table (V-Table)
+👉 That’s why overridden methods are called at runtime.
+
+8. Method Overriding Rules (Very Important)
+| Rule             | Explanation              |
+| ---------------- | ------------------------ |
+| Method signature | Must be same             |
+| Access modifier  | Cannot reduce visibility |
+| Return type      | Covariant allowed        |
+| static           | Cannot override          |
+| final            | Cannot override          |
+| private          | Not inherited            |
+
+9. Static Methods & Polymorphism (Tricky Interview Area)
+class Parent {
+    static void show() {
+        System.out.println("Parent");
+    }
+}
+
+class Child extends Parent {
+    static void show() {
+        System.out.println("Child");
+    }
+}
+
+Parent p = new Child();
+p.show();   // Parent
+  👉 This is method hiding, NOT polymorphism
+  👉 Static binding happens at compile time
+
+10. Polymorphism Using Interfaces (Very Important)
+interface Payment {
+    void pay();
+}
+
+class CreditCardPayment implements Payment {
+    public void pay() {
+        System.out.println("Credit Card");
+    }
+}
+
+class UpiPayment implements Payment {
+    public void pay() {
+        System.out.println("UPI");
+    }
+}
+
+interface Payment {
+    void pay();
+}
+
+class CreditCardPayment implements Payment {
+    public void pay() {
+        System.out.println("Credit Card");
+    }
+}
+
+class UpiPayment implements Payment {
+    public void pay() {
+        System.out.println("UPI");
+    }
+}
+
+17. Common Tricky Interview Questions (4+ Years)
+Q1. Can constructors be polymorphic?
+❌ No — constructors are not inherited.
+
+Q2. Can private methods be overridden?
+❌ No — not visible to child.
+
+Q3. Can polymorphism work without inheritance?
+✅ Yes — using interfaces.
+
+Q4. Why final methods block polymorphism?
+Because overriding is not allowed.
+
+Q5. Is polymorphism compile-time or runtime?
+✔ Both:
+Overloading → Compile-time
+Overriding → Runtime
+
+18. Real-World Use Cases
+  Payment gateways
+  Notification services
+  Strategy pattern
+  Factory pattern
+  Spring services
+  REST implementations
+
+19. Interview-Ready One-Liners
+  “Polymorphism enables runtime behavior selection.”
+  “Object decides behavior, reference decides access.”
+  “Foundation of Spring Dependency Injection.”
