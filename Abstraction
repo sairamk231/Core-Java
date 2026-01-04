@@ -12,6 +12,38 @@ Why Abstraction needed?
 | Hard testing     | Enables mocking                      |
 | Poor design      | Encourages programming to interfaces |
 
+Example: Abstract Class
+abstract class Vehicle {
+    abstract void start();
+    void fuel() {
+        System.out.println("Fueling vehicle");
+    }
+}
+
+class Car extends Vehicle {
+    @Override
+    void start() {
+        System.out.println("Car started");
+    }
+}
+
+public class Test {
+    public static void main(String[] args) {
+        Vehicle v = new Car();
+        v.start();
+        v.fuel();
+    }
+}
+
+Output
+Car started
+Fueling vehicle
+
+👉 Caller knows what happens, not how.
+“Program to interfaces, not implementations.”
+“Core design principle in Spring applications.”
+
+
 4. Ways to Achieve Abstraction in Java
   4.1 Using Interface (100% Abstraction – conceptually)
       interface Payment {
@@ -48,6 +80,27 @@ Why Abstraction needed?
 | Multiple inheritance | ✅ Yes                     | ❌ No                |
 | State                | ❌ No                      | ✅ Yes               |
 | Spring preference    | ✅ High                    | Medium              |
+
+interface Payment {
+    void pay(double amount);
+}
+
+class UpiPayment implements Payment {
+    public void pay(double amount) {
+        System.out.println("UPI payment: " + amount);
+    }
+}
+
+public class Test {
+    public static void main(String[] args) {
+        Payment p = new UpiPayment();
+        p.pay(500);
+    }
+}
+Output
+yaml
+Copy code
+UPI payment: 500.0
 
 6. Abstraction vs Encapsulation (Very Common Question)
 | Abstraction      | Encapsulation         |
@@ -161,8 +214,69 @@ REST API contracts
 
 17. Interview-Ready One-Liners
 “Abstraction hides implementation, exposes behavior.”
-“Program to interfaces, not implementations.”
-“Core design principle in Spring applications.”
 
 18. Interview Closing Statement (Use This)
 “Abstraction helps build flexible, maintainable, and testable systems by decoupling what a service does from how it is implemented, which is fundamental in Spring Boot architectures.”
+
+9. Abstract Class – Rules & Examples
+    9.1 Abstract Method
+    abstract class Shape {
+        abstract double area();
+    }
+    
+    9.2 Abstract Class with Constructor
+    abstract class Base {
+        Base() {
+            System.out.println("Base constructor");
+        }
+    }
+    
+    class Child extends Base {
+        Child() {
+            System.out.println("Child constructor");
+        }
+    }
+    
+    public class Test {
+        public static void main(String[] args) {
+            new Child();
+        }
+    }
+    
+    Output
+    Base constructor
+    Child constructor
+    
+    ✔ Constructors are used for initialization
+
+10. Interface with Default & Static Methods (Java 8+)
+interface Logger {
+
+    void log(String msg);
+
+    default void info(String msg) {
+        log("INFO: " + msg);
+    }
+
+    static void version() {
+        System.out.println("Logger v1.0");
+    }
+}
+
+class AppLogger implements Logger {
+    public void log(String msg) {
+        System.out.println(msg);
+    }
+}
+
+public class Test {
+    public static void main(String[] args) {
+        Logger logger = new AppLogger();
+        logger.info("Application started");
+        Logger.version();
+    }
+}
+
+Output
+INFO: Application started
+Logger v1.0
