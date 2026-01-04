@@ -1,0 +1,350 @@
+PART 1: static Keyword in Java
+1. What is static?
+    static means class-level, not object-level.
+    Belongs to the class
+    Loaded once when class is loaded
+    Shared by all objects
+
+Interview one-liner
+“Static members belong to the class, not to individual objects.”
+
+2. Static Variable
+Example
+    class Counter {
+        static int count = 0;
+    
+        Counter() {
+            count++;
+        }
+    
+        void showCount() {
+            System.out.println(count);
+        }
+    }
+    
+    public class Test {
+        public static void main(String[] args) {
+            Counter c1 = new Counter();
+            Counter c2 = new Counter();
+            Counter c3 = new Counter();
+    
+            c3.showCount();
+        }
+    }
+
+    Output
+    3
+
+Key Points:
+Only one copy exists in memory
+Shared across all instances
+Stored in Method Area
+
+3. Static Method
+Example
+  class MathUtil {
+      static int add(int a, int b) {
+          return a + b;
+      }
+  }
+  
+  public class Test {
+      public static void main(String[] args) {
+          System.out.println(MathUtil.add(10, 20));
+      }
+  }
+  
+  Output
+  30
+
+Rules:
+Can be called without object
+❌ Cannot access instance variables directly
+❌ Cannot use this or super
+
+4. Static Block
+Example
+  class Demo {
+      static {
+          System.out.println("Static block executed");
+      }
+  
+      Demo() {
+          System.out.println("Constructor executed");
+      }
+  }
+  
+  public class Test {
+      public static void main(String[] args) {
+          new Demo();
+          new Demo();
+      }
+  }
+  
+  Output
+  Static block executed
+  Constructor executed
+  Constructor executed
+
+Key Point
+Static block runs once
+Used for class-level initialization
+
+5. Static Method Hiding (Very Tricky 🔥)
+    class Parent {
+        static void show() {
+            System.out.println("Parent");
+        }
+    }
+    
+    class Child extends Parent {
+        static void show() {
+            System.out.println("Child");
+        }
+    }
+    
+    public class Test {
+        public static void main(String[] args) {
+            Parent p = new Child();
+            p.show();
+        }
+    }
+    
+    Output
+    Parent
+
+👉 This is method hiding, NOT overriding
+👉 Static binding happens at compile time
+
+6. Static Nested Class
+  class Outer {
+      static class Inner {
+          void show() {
+              System.out.println("Inner class");
+          }
+      }
+  }
+  
+  public class Test {
+      public static void main(String[] args) {
+          Outer.Inner obj = new Outer.Inner();
+          obj.show();
+      }
+  }
+  
+  Output
+  Inner class
+
+7. Static Import
+  import static java.lang.Math.*;
+  
+  public class Test {
+      public static void main(String[] args) {
+          System.out.println(sqrt(25));
+      }
+  }
+
+  Output
+  5.0
+---------------------------------------------------------------------------------------------------
+PART 2: final Keyword in Java
+8. What is final?
+final means cannot be changed.
+
+Used with:
+Variables
+Methods
+Classes
+
+Interview one-liner
+“Final prevents modification, overriding, or inheritance.”
+
+9. Final Variable
+  Example
+  public class Test {
+      public static void main(String[] args) {
+          final int x = 10;
+          // x = 20; ❌
+          System.out.println(x);
+      }
+  }
+  
+  Output
+  10
+
+10. Final Reference Variable (Very Important)
+  import java.util.*;
+  
+  public class Test {
+      public static void main(String[] args) {
+          final List<String> list = new ArrayList<>();
+          list.add("Java");
+          list.add("Spring");
+  
+          System.out.println(list);
+  
+          // list = new ArrayList<>(); ❌
+      }
+  }
+  
+  Output
+  [Java, Spring]
+👉 Reference is final, object is mutable
+
+11. Blank Final Variable
+  class Demo {
+      final int x;
+  
+      Demo(int value) {
+          x = value;
+      }
+  
+      void show() {
+          System.out.println(x);
+      }
+  }
+  
+  public class Test {
+      public static void main(String[] args) {
+          new Demo(50).show();
+      }
+  }
+  
+  Output
+  50
+
+12. Final Method
+class Parent {
+    final void show() {
+        System.out.println("Parent method");
+    }
+}
+
+class Child extends Parent {
+    // void show() {} ❌
+}
+
+public class Test {
+    public static void main(String[] args) {
+        new Child().show();
+    }
+}
+
+Output
+Parent method
+
+👉 Prevents overriding
+👉 Used for security & consistency
+
+13. Final Class
+  final class Utility {
+      static void help() {
+          System.out.println("Utility method");
+      }
+  }
+  
+  public class Test {
+      public static void main(String[] args) {
+          Utility.help();
+      }
+  }
+  
+  Output
+  Utility method
+  
+❌ Cannot extend final class
+✔ String, wrapper classes are final
+
+14. static final (Constant Pattern)
+  class Constants {
+      public static final int MAX_USERS = 100;
+  }
+  
+  public class Test {
+      public static void main(String[] args) {
+          System.out.println(Constants.MAX_USERS);
+      }
+  }
+  
+  Output
+  100
+
+Why static final?
+  One copy
+  Immutable
+  Compile-time constant
+
+15. Static vs Final (🔥 Must-Remember)
+| Feature        | static             | final        |
+| -------------- | ------------------ | ------------ |
+| Belongs to     | Class              | Restriction  |
+| Change allowed | Yes                | No           |
+| Polymorphism   | ❌                  | ❌            |
+| Memory         | Method Area        | Depends      |
+| Common use     | Utility, constants | Immutability |
+
+16. static & final in Interfaces
+interface Test {
+    int X = 10; // public static final
+}
+
+public class Demo {
+    public static void main(String[] args) {
+        System.out.println(Test.X);
+    }
+}
+
+Output
+10
+
+17. JVM / Memory Perspective
+  Static members → Method Area
+  Instance members → Heap
+  static final primitives → inlined at compile time
+  Final methods → not overridden → faster dispatch
+
+18. static & final in Spring Boot (🔥 Important)
+Static – Avoid in Beans
+❌ Autowiring static fields
+❌ Stateful static variables
+✔ Use static for:
+  Constants
+  Utility classes
+  
+Final – Highly Recommended
+@Service
+class UserService {
+    private final Repo repo;
+
+    UserService(Repo repo) {
+        this.repo = repo;
+    }
+}
+
+✔ Thread-safe
+✔ Encourages immutability
+✔ Best practice in Spring
+
+19. Common Tricky Interview Questions
+Q1. Can static methods be overridden?
+❌ No (method hiding)
+
+Q2. Can final methods be overloaded?
+✅ Yes
+
+Q3. Does final make object immutable?
+❌ No (design matters)
+
+Q4. Why String is final?
+Security, immutability, caching
+
+Q5. Can constructor be static or final?
+❌ No
+
+20. Interview One-Liners (Use These)
+“Static belongs to class, final restricts change.”
+“Static methods don’t support runtime polymorphism.”
+“Final helps achieve immutability and security.”
+
+21. Interview Closing Statement
+“Proper use of static and final improves performance, safety, and design clarity, which is essential for scalable Spring Boot applications.”
