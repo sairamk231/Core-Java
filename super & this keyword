@@ -1,1 +1,199 @@
+1. What is this?
+  this is a reference to the current object whose method or constructor is being executed.
+👉 Used to:
+    Refer current class instance variables
+    Invoke current class methods
+    Call current class constructor
+    Pass current object as argument
+    Return current object
 
+2. Uses of this Keyword (All Cases)
+  2.1 Referring to Instance Variables
+    class Person {
+        private int age;
+    
+        void setAge(int age) {
+            this.age = age; // differentiates instance variable
+        }
+    }
+
+  2.2 Calling Current Class Method
+    class Test {
+        void m1() {
+            System.out.println("m1");
+        }
+        void m2() {
+            this.m1(); // optional
+        }
+    }
+
+2.3 Constructor Chaining (this())
+    class Employee {
+    
+        Employee() {
+            this(100);
+            System.out.println("Default constructor");
+        }
+    
+        Employee(int id) {
+            System.out.println("Parameterized constructor: " + id);
+        }
+    }
+  🔑 Rules:
+  this() must be first statement
+  Avoids code duplication
+
+2.4 Passing this as Method Argument
+      class Demo {
+          void show(Demo d) {
+              System.out.println("Method called");
+          }
+          void call() {
+              show(this);
+          }
+      }
+
+2.5 Returning this
+    class Builder {
+        Builder set() {
+            return this;
+        }
+    }
+    Used in method chaining / builder pattern.
+
+3. What is super?
+    super is a reference to the immediate parent class object.
+👉 Used to:
+    Access parent class variables
+    Call parent class methods
+    Call parent class constructor
+
+4. Uses of super Keyword
+  4.1 Access Parent Class Variable
+    class Parent {
+        int x = 10;
+    }
+    
+    class Child extends Parent {
+        int x = 20;
+    
+        void show() {
+            System.out.println(super.x); // 10
+        }
+    }
+
+  4.2 Call Parent Class Method
+    class Parent {
+        void display() {
+            System.out.println("Parent");
+        }
+    }
+    
+    class Child extends Parent {
+        void display() {
+            super.display();
+            System.out.println("Child");
+        }
+    }
+
+  4.3 Call Parent Class Constructor (super())
+    class Parent {
+        Parent(int x) {
+            System.out.println("Parent constructor");
+        }
+    }
+    
+    class Child extends Parent {
+        Child() {
+            super(10);
+            System.out.println("Child constructor");
+        }
+    }
+🔑 Rules:
+    super() must be first statement
+    If not written, compiler adds default super()
+
+5. Constructor Chaining Order (Very Important)
+    class A {
+        A() { System.out.println("A"); }
+    }
+    
+    class B extends A {
+        B() { System.out.println("B"); }
+    }
+    
+    class C extends B {
+        C() { System.out.println("C"); }
+    }
+
+
+    Output:
+    
+    A
+    B
+    C
+👉 Parent constructor executes before child.
+
+6. this vs super (🔥 Must-Know Table)
+| Feature     | `this`                              | `super`       |
+| ----------- | ----------------------------------- | ------------- |
+| Refers to   | Current object                      | Parent object |
+| Variables   | Current class                       | Parent class  |
+| Methods     | Current class                       | Parent class  |
+| Constructor | `this()`                            | `super()`     |
+| Position    | First statement only in constructor | Same          |
+
+7. Rules & Restrictions (Tricky)
+  ❌ this() and super() cannot be together
+  ❌ Cannot use super in static context
+  ❌ Cannot access private parent members via super
+  ✔ this can be returned
+
+8. this and super with Static Context
+  class Test {
+      static void m1() {
+          // this ❌
+          // super ❌
+      }
+  }
+  👉 Static methods belong to class, not object.
+
+9. JVM / Memory Perspective
+    this → reference to current heap object
+    super → reference to parent part of same object
+    Only one object is created (child)
+    Parent variables are part of child object
+
+10. this & super in Spring Boot (Important)
+  Dependency Injection & this
+  @Service
+  class UserService {
+  
+      @Autowired
+      private Repo repo;
+  
+      void process() {
+          this.repo.save(); // optional
+      }
+  }
+this rarely required
+Used mainly for clarity or method chaining
+
+12. Common Tricky Interview Questions (4+ Years)
+Q1. Can this be null?
+❌ No — it always refers to current object
+
+Q2. Can we use super.super?
+❌ No — only immediate parent
+
+Q3. Is super() mandatory?
+✔ Implicitly added if parent has default constructor
+
+Q4. Can we override constructor?
+❌ No — constructors are not inherited
+
+Q5. Why super() must be first?
+To ensure parent initialization before child
+
+Q6. Difference between this.x and x?
+No difference unless variable shadowing exists
