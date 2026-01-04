@@ -33,12 +33,14 @@ Polymorphism depends on inheritance or interfaces
 ✔ Achieved using method overriding + inheritance/interface
 
 4. Compile-Time Polymorphism (Method Overloading)
-Definition
+4.1 What is Method Overloading?
 
 Multiple methods with:
-Same name
-Different parameter list (type / count / order)
+  Same method name
+  Different parameter list (type / number / order)
+  Resolved at compile time.
 
+Example
 class Calculator {
 
     int add(int a, int b) {
@@ -50,42 +52,65 @@ class Calculator {
     }
 }
 
-Key Points:
-  Resolved at compile time
-  Return type alone cannot differentiate methods
-  Can overload:
-    static methods
-    constructors
-  Does not depend on inheritance
+public class Test {
+    public static void main(String[] args) {
+        Calculator c = new Calculator();
+        System.out.println(c.add(10, 20));
+        System.out.println(c.add(10.5, 20.5));
+    }
+}
 
-❌ Invalid:
+Output
+30
+31.0
+
+Important Rules
+  Return type alone cannot differentiate methods ❌
+  Inheritance not required
+  Static methods can be overloaded
+  Constructors can be overloaded
+
+Invalid Overloading
 int add(int a, int b) {}
-double add(int a, int b) {} // ❌ return type only
-
-
+double add(int a, int b) {} // ❌ Only return type differs
+-----------------------------------------------------------------------------------------------------------------------------
 5. Runtime Polymorphism (Most Important Topic)
 Definition
   Method call is resolved at runtime based on object type, not reference type.
 
+Achieved using:
+  Inheritance (or interface)
+  Method overriding
+  Parent reference & child object
+
+Example
 class Parent {
     void show() {
-        System.out.println("Parent");
+        System.out.println("Parent method");
     }
 }
 
 class Child extends Parent {
     @Override
     void show() {
-        System.out.println("Child");
+        System.out.println("Child method");
     }
 }
 
-Parent p = new Child();
-p.show();  // Child
+public class Test {
+    public static void main(String[] args) {
+        Parent p = new Child();
+        p.show();
+    }
+}
 
-👉 Rule to remember
+Output
+Child method
+
+👉 Key Rule (Say in interview)
 
 Reference decides accessibility, object decides behavior.
+
 
 6. Conditions for Runtime Polymorphism
   ✔ IS-A relationship (inheritance / interface)
@@ -113,56 +138,85 @@ Reference decides accessibility, object decides behavior.
 | final            | Cannot override          |
 | private          | Not inherited            |
 
-9. Static Methods & Polymorphism (Tricky Interview Area)
+Covariant Return Type:
+  class Parent {
+      Number getValue() {
+          return 10;
+      }
+  }
+  
+  class Child extends Parent {
+      Integer getValue() {
+          return 20;
+      }
+  }
+  
+  public class Test {
+      public static void main(String[] args) {
+          Parent p = new Child();
+          System.out.println(p.getValue());
+      }
+  }
+  
+  Output
+  20
+
+9. Static Methods & Polymorphism (Tricky 🔥)
 class Parent {
     static void show() {
-        System.out.println("Parent");
+        System.out.println("Parent static");
     }
 }
 
 class Child extends Parent {
     static void show() {
-        System.out.println("Child");
+        System.out.println("Child static");
     }
 }
 
-Parent p = new Child();
-p.show();   // Parent
-  👉 This is method hiding, NOT polymorphism
-  👉 Static binding happens at compile time
+public class Test {
+    public static void main(String[] args) {
+        Parent p = new Child();
+        p.show();
+    }
+}
+
+Output
+Parent static
+
+👉 This is method hiding, NOT polymorphism
+👉 Static binding happens at compile time
 
 10. Polymorphism Using Interfaces (Very Important)
+Example
 interface Payment {
     void pay();
 }
 
 class CreditCardPayment implements Payment {
     public void pay() {
-        System.out.println("Credit Card");
+        System.out.println("Credit Card Payment");
     }
 }
 
 class UpiPayment implements Payment {
     public void pay() {
-        System.out.println("UPI");
+        System.out.println("UPI Payment");
     }
 }
 
-interface Payment {
-    void pay();
-}
-
-class CreditCardPayment implements Payment {
-    public void pay() {
-        System.out.println("Credit Card");
+public class Test {
+    public static void main(String[] args) {
+        Payment p = new UpiPayment();
+        p.pay();
     }
 }
 
-class UpiPayment implements Payment {
-    public void pay() {
-        System.out.println("UPI");
-    }
-}
+Output
+UPI Payment
+
+✔ Most common real-world polymorphism
+✔ Core of Spring DI
 
 13. Polymorphism in Spring Boot (🔥 Extremely Important)
 Dependency Injection Example:
