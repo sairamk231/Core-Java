@@ -2,6 +2,13 @@ Inheritance in Java is a mechanism in which one object acquires all the properti
 Inheritance represents the IS-A relationship which is also known as a parent-child relationship. 
 Using Extends keyword we can achieve inheritance.
 Advantages: reusability, method overiding, loose coupling, Supports polymorphism.
+| Benefit         | Explanation           |
+| --------------- | --------------------- |
+| Code reuse      | Avoids duplication    |
+| Polymorphism    | Method overriding     |
+| Maintainability | Centralized changes   |
+| Extensibility   | Easy feature addition |
+
 ----------------------------------------------------------------------------------------------------------------------------------------------
 1. extends Keyword Rules:
     A class can extend only one class
@@ -30,6 +37,17 @@ Advantages: reusability, method overiding, loose coupling, Supports polymorphism
     Object created only for child
     Parent variables are part of child object
     Constructor chaining happens top-down
+
+7. Rules of Method Overriding
+✔ Same method name & parameters
+✔ IS-A relationship
+✔ Access modifier cannot be reduced
+✔ Covariant return type allowed
+
+❌ Cannot override:
+    static methods
+    final methods
+    private methods
 
 ----------------------------------------------------------------------------------------------------------------------------------------------
 Advanced Features (Java 8+):-
@@ -223,3 +241,30 @@ Hybrid Interface:
         obj.disp();    
         }    
         }
+
+--------------------------------------------------------------------------------------------
+
+6. Method Overriding (🔥 Core Interview Topic)
+Example
+class Parent {
+    void show() {
+        System.out.println("Parent method");
+    }
+}
+
+class Child extends Parent {
+    @Override
+    void show() {
+        System.out.println("Child method");
+    }
+}
+
+public class Test {
+    public static void main(String[] args) {
+        Parent p = new Child();
+        p.show();
+    }
+}
+
+Output
+Child method
