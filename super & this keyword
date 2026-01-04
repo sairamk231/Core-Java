@@ -1,147 +1,258 @@
+PART 1: this Keyword
 1. What is this?
-  this is a reference to the current object whose method or constructor is being executed.
-👉 Used to:
-    Refer current class instance variables
-    Invoke current class methods
-    Call current class constructor
-    Pass current object as argument
-    Return current object
+this is a reference variable that points to the current object.
 
-2. Uses of this Keyword (All Cases)
-  2.1 Referring to Instance Variables
-    class Person {
-        private int age;
-    
-        void setAge(int age) {
-            this.age = age; // differentiates instance variable
-        }
-    }
+Interview one-liner
+“this refers to the current invoking object.”
 
-  2.2 Calling Current Class Method
-    class Test {
-        void m1() {
-            System.out.println("m1");
-        }
-        void m2() {
-            this.m1(); // optional
-        }
-    }
+2. Uses of this Keyword (All Possibilities)
+  2.1 Referring to Instance Variables (Most Common)
+  Example
+  class Person {
+      int age;
+  
+      void setAge(int age) {
+          this.age = age;
+      }
+  
+      void show() {
+          System.out.println(age);
+      }
+  }
+  
+  public class Test {
+      public static void main(String[] args) {
+          Person p = new Person();
+          p.setAge(35);
+          p.show();
+      }
+  }
+  
+  Output
+  35
 
-2.3 Constructor Chaining (this())
-    class Employee {
-    
-        Employee() {
-            this(100);
-            System.out.println("Default constructor");
-        }
-    
-        Employee(int id) {
-            System.out.println("Parameterized constructor: " + id);
-        }
-    }
-  🔑 Rules:
-  this() must be first statement
-  Avoids code duplication
+👉 Used to resolve variable shadowing
+
+2.2 Calling Current Class Method
+  class Demo {
+      void m1() {
+          System.out.println("m1 method");
+      }
+  
+      void m2() {
+          this.m1(); // optional
+      }
+  }
+  
+  public class Test {
+      public static void main(String[] args) {
+          new Demo().m2();
+      }
+  }
+  
+  Output
+  m1 method
+
+2.3 Constructor Chaining Using this()
+  Example
+  class Employee {
+  
+      Employee() {
+          this(101);
+          System.out.println("Default constructor");
+      }
+  
+      Employee(int id) {
+          System.out.println("Parameterized constructor: " + id);
+      }
+  }
+  
+  public class Test {
+      public static void main(String[] args) {
+          new Employee();
+      }
+  }
+  
+  Output
+  Parameterized constructor: 101
+  Default constructor
+
+Rules
+this() must be first statement
+Avoids code duplication
 
 2.4 Passing this as Method Argument
-      class Demo {
-          void show(Demo d) {
-              System.out.println("Method called");
-          }
-          void call() {
-              show(this);
-          }
-      }
+    class TestThis {
+        void display(TestThis obj) {
+            System.out.println("Method called");
+        }
+    
+        void call() {
+            display(this);
+        }
+    }
+    
+    public class Test {
+        public static void main(String[] args) {
+            new TestThis().call();
+        }
+    }
+    
+    Output
+    Method called
 
-2.5 Returning this
+2.5 Returning this (Method Chaining)
     class Builder {
-        Builder set() {
+        Builder setA() {
+            System.out.println("setA");
+            return this;
+        }
+    
+        Builder setB() {
+            System.out.println("setB");
             return this;
         }
     }
-    Used in method chaining / builder pattern.
+    
+    public class Test {
+        public static void main(String[] args) {
+            new Builder().setA().setB();
+        }
+    }
+    
+    Output
+    setA
+    setB
 
+👉 Used in Builder pattern
+
+2.6 this in Static Context ❌
+class Test {
+    static void show() {
+        // System.out.println(this); ❌
+    }
+}
+❌ Static methods don’t belong to objects
+--------------------------------------------------------------------------------------------------------------------
+PART 2: super Keyword
 3. What is super?
-    super is a reference to the immediate parent class object.
-👉 Used to:
-    Access parent class variables
-    Call parent class methods
-    Call parent class constructor
+super is a reference to the immediate parent class object.
+
+Interview one-liner
+“super refers to the parent class part of the current object.”
 
 4. Uses of super Keyword
   4.1 Access Parent Class Variable
-    class Parent {
-        int x = 10;
-    }
-    
-    class Child extends Parent {
-        int x = 20;
-    
-        void show() {
-            System.out.println(super.x); // 10
-        }
-    }
+  class Parent {
+      int x = 10;
+  }
+  
+  class Child extends Parent {
+      int x = 20;
+  
+      void show() {
+          System.out.println(x);
+          System.out.println(super.x);
+      }
+  }
+  
+  public class Test {
+      public static void main(String[] args) {
+          new Child().show();
+      }
+  }
+  
+  Output
+  20
+  10
 
-  4.2 Call Parent Class Method
-    class Parent {
-        void display() {
-            System.out.println("Parent");
-        }
-    }
-    
-    class Child extends Parent {
-        void display() {
-            super.display();
-            System.out.println("Child");
-        }
-    }
+4.2 Call Parent Class Method
+  class Parent {
+      void display() {
+          System.out.println("Parent display");
+      }
+  }
+  
+  class Child extends Parent {
+      void display() {
+          super.display();
+          System.out.println("Child display");
+      }
+  }
+  
+  public class Test {
+      public static void main(String[] args) {
+          new Child().display();
+      }
+  }
+  
+  Output
+  Parent display
+  Child display
 
-  4.3 Call Parent Class Constructor (super())
-    class Parent {
-        Parent(int x) {
-            System.out.println("Parent constructor");
-        }
-    }
-    
-    class Child extends Parent {
-        Child() {
-            super(10);
-            System.out.println("Child constructor");
-        }
-    }
-🔑 Rules:
-    super() must be first statement
-    If not written, compiler adds default super()
+4.3 Call Parent Class Constructor (super())
+  class Parent {
+      Parent(int x) {
+          System.out.println("Parent constructor: " + x);
+      }
+  }
+  
+  class Child extends Parent {
+      Child() {
+          super(50);
+          System.out.println("Child constructor");
+      }
+  }
+  
+  public class Test {
+      public static void main(String[] args) {
+          new Child();
+      }
+  }
+
+  Output
+  Parent constructor: 50
+  Child constructor
+
+Rules
+super() must be first statement
+If not written, compiler inserts default super()
 
 5. Constructor Chaining Order (Very Important)
-    class A {
-        A() { System.out.println("A"); }
-    }
-    
-    class B extends A {
-        B() { System.out.println("B"); }
-    }
-    
-    class C extends B {
-        C() { System.out.println("C"); }
-    }
+  class A {
+      A() { System.out.println("A"); }
+  }
+  
+  class B extends A {
+      B() { System.out.println("B"); }
+  }
+  
+  class C extends B {
+      C() { System.out.println("C"); }
+  }
+  
+  public class Test {
+      public static void main(String[] args) {
+          new C();
+      }
+  }
+  
+  Output
+  A
+  B
+  C
 
 
-    Output:
-    
-    A
-    B
-    C
-👉 Parent constructor executes before child.
+👉 Parent constructor always executes first
 
 6. this vs super (🔥 Must-Know Table)
-| Feature     | `this`                              | `super`       |
-| ----------- | ----------------------------------- | ------------- |
-| Refers to   | Current object                      | Parent object |
-| Variables   | Current class                       | Parent class  |
-| Methods     | Current class                       | Parent class  |
-| Constructor | `this()`                            | `super()`     |
-| Position    | First statement only in constructor | Same          |
+| Feature          | `this`         | `super`       |
+| ---------------- | -------------- | ------------- |
+| Refers to        | Current object | Parent object |
+| Variables        | Current class  | Parent class  |
+| Methods          | Current class  | Parent class  |
+| Constructor call | `this()`       | `super()`     |
+| Static context   | ❌              | ❌             |
 
 7. Rules & Restrictions (Tricky)
   ❌ this() and super() cannot be together
