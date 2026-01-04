@@ -11,3 +11,206 @@ Why Interface?
 | Changing implementations       | Swap without touching callers |
 | Unit testing                   | Easy mocking                  |
 | Spring DI                      | Preferred injection point     |
+
+3. Interface Syntax (All Possibilities)
+  public interface MyInterface {
+  
+      // Constant (implicitly public static final)
+      int MAX = 100;
+  
+      // Abstract method (implicitly public abstract)
+      void doWork();
+  
+      // Default method (Java 8+)
+      default void log() {
+          System.out.println("Logging");
+      }
+  
+      // Static method (Java 8+)
+      static int add(int a, int b) {
+          return a + b;
+      }
+  
+      // Private helper (Java 9+)
+      private void helper() {
+          // internal reuse
+      }
+  }
+
+4. Key Rules (Must-Know)
+  Methods are public by default
+  Variables are public static final
+  No constructors
+  Cannot be instantiated
+  A class can implement multiple interfaces
+  An interface can extend multiple interfaces
+
+5. Interface vs Abstract Class (🔥 Very Important)
+| Feature               | Interface                 | Abstract Class      |
+| --------------------- | ------------------------- | ------------------- |
+| Multiple inheritance  | ✅ Yes                     | ❌ No                |
+| State (instance vars) | ❌ No                      | ✅ Yes               |
+| Constructors          | ❌ No                      | ✅ Yes               |
+| Methods               | abstract, default, static | abstract + concrete |
+| Variables             | public static final       | any                 |
+| Spring preference     | High                      | Medium              |
+
+6. Default Methods (Java 8+)
+Why?
+To add new methods without breaking existing implementations.
+  
+  interface Vehicle {
+      void start();
+      default void fuelType() {
+          System.out.println("Petrol/Diesel");
+      }
+  }
+  //Overriding Default Method
+  class Car implements Vehicle {
+      public void start() { }
+      @Override
+      public void fuelType() {
+          System.out.println("Petrol");
+      }
+  }
+
+7. Static Methods in Interface:
+Belong to the interface
+Cannot be overridden
+  interface MathUtil {
+      static int add(int a, int b) {
+          return a + b;
+      }
+  }
+  // Usage
+  int s = MathUtil.add(10, 20);
+
+8. Multiple Inheritance via Interface (Key Topic)
+    Problem with classes
+    class A { void show(){} }
+    class B { void show(){} }
+    // class C extends A, B ❌
+    
+    Solution with interface
+    interface A { void show(); }
+    interface B { void show(); }
+    
+    class C implements A, B {
+        public void show() {
+            System.out.println("Resolved");
+        }
+    }
+9. Diamond Problem with Default Methods
+interface A {
+    default void msg(){ System.out.println("A"); }
+}
+interface B {
+    default void msg(){ System.out.println("B"); }
+}
+class C implements A, B {
+    @Override
+    public void msg() {
+        A.super.msg(); // or B.super.msg()
+    }
+}
+
+Rule: If two interfaces provide the same default method, the class must override it.
+
+10. Functional Interface (🔥 Very Important)
+Definition
+Exactly one abstract method.
+
+@FunctionalInterface
+interface Calculator {
+    int add(int a, int b);
+}
+
+Lambda
+    Calculator c = (a, b) -> a + b;
+
+Common Functional Interfaces
+    Predicate<T> → test
+    Function<T,R> → apply
+    Consumer<T> → accept
+    Supplier<T> → get
+    Runnable, Callable
+
+11. Marker Interface
+    No methods—used for metadata.
+    interface Serializable {}
+    interface Cloneable {}
+    JVM/framework provides special behavior based on presence.
+    
+12. Interface Variables (Tricky)
+  interface Test {
+      int x = 10;
+  }
+  Equivalent to:
+  public static final int x = 10;
+  ❌ Cannot change
+  ❌ No instance variables
+
+13. Interface & Encapsulation
+  Interface does not expose data
+  Exposes behavior only
+  Implementation details remain hidden
+
+interface Bank {
+    double getInterest();
+}
+
+14. Interface in Spring Boot (🔥 Critical)
+Service Contract
+public interface PaymentService {
+    void pay();
+}
+
+@Service
+public class CreditCardPayment implements PaymentService {
+    public void pay() { }
+}
+
+Why Spring prefers interfaces?
+    Loose coupling
+    Easy mocking (@MockBean)
+    Cleaner architecture
+    JDK proxies for AOP
+
+15. Multiple Implementations & @Qualifier
+    @Autowired
+    @Qualifier("upiPayment")
+    private PaymentService paymentService;
+
+16. Interface vs Concrete Class Injection
+    Interface Injection	Class Injection
+    Flexible	Tight coupling
+    Easy testing	Harder to mock
+    AOP friendly	Limited
+
+17. JVM / Memory Perspective
+    Interface metadata in Method Area
+    No object created for interface
+    Reference variable can point to any implementation
+    Ex: List<String> list = new ArrayList<>();
+
+
+19. Common Tricky Interview Questions (4+ Years)
+
+Q1. Can interface have constructor?
+❌ No—no instance state.
+
+Q2. Can interface extend multiple interfaces?
+✅ Yes.
+
+Q3. Can we have main method in interface?
+✅ Yes (static).
+
+Q4. Can interface have private methods?
+✅ Yes (Java 9+)—for internal reuse.
+
+Q5. Why variables are final in interface?
+To keep contracts immutable.
+
+Q6. Interface vs abstract class—when which?
+Interface: contracts, multiple inheritance, Spring services
+Abstract class: shared code/state
