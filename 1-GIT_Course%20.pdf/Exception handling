@@ -119,7 +119,9 @@ Null pointer exception
   ✔ Used heavily in enterprise applications
 
 10. throw Keyword
-  Used to explicitly throw an exception.
+-> Used to explicitly throw an exception.
+-> By default all predefined exceptions are created and thrown implicitly and identified by JVM
+-> If we want to throw the exceptions explicitly then we have to use throw keyword.
   public class Test {
       static void validate(int age) {
           if (age < 18)
@@ -135,7 +137,10 @@ Null pointer exception
   Exception in thread "main" java.lang.IllegalArgumentException: Not eligible
 
 11. throws Keyword
-    Used to declare exception to caller.
+Used to declare exception to caller.
+The throws keyword is used to declare the list of exception that a method may throw during execution of program.
+Any method that is capable of causing exceptions must list all the exceptions possible during its execution,
+  so that anyone calling that method gets a prior knowledge about which exceptions are to be handled
     void readFile() throws IOException {
         FileReader fr = new FileReader("file.txt");
     }
