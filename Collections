@@ -1,25 +1,16 @@
 1. What is the Collection Framework?
-
 The Java Collections Framework (JCF) is a unified architecture for storing, manipulating, and processing groups of objects.
 
 It provides:
-
 Interfaces
-
 Implementations (classes)
-
 Algorithms
 
 2. Why Collections Are Needed
-
 Dynamic size (unlike arrays)
-
 Built-in methods for searching, sorting, filtering
-
 Type safety with Generics
-
 Performance-optimized data structures
-
 Widely used in enterprise & Spring Boot applications
 
 3. Collection Hierarchy (High Level)
@@ -41,17 +32,12 @@ Iterable
 ⚠️ Map is not part of Collection interface but part of Collection Framework.
 
 4. List Interface
-
 Allows duplicate elements
-
 Maintains insertion order
-
 Index-based access
 
-ArrayList
-
+ArrayList:
 Dynamic array
-
 Fast read, slow insert/delete (middle)
 
 List<String> list = new ArrayList<>();
@@ -76,3 +62,211 @@ LinkedList:
   
   Output
   20
+
+ArrayList vs LinkedList (Interview Favorite)
+| Feature        | ArrayList     | LinkedList         |
+| -------------- | ------------- | ------------------ |
+| Data Structure | Dynamic Array | Doubly Linked List |
+| Access         | Fast          | Slow               |
+| Insert/Delete  | Slow          | Fast               |
+| Memory         | Less          | More               |
+
+5. Set Interface
+ No duplicates
+ No index-based access
+
+HashSet:
+ Uses Hashing
+ No order guarantee
+
+ Set<Integer> set = new HashSet<>();
+ set.add(10);
+ set.add(20);
+ set.add(10);
+ 
+ System.out.println(set);
+ Output
+ csharp
+ Copy code
+ [10, 20]
+
+LinkedHashSet:
+Maintains insertion order
+
+ Set<String> set = new LinkedHashSet<>();
+ set.add("A");
+ set.add("B");
+ set.add("A");
+ 
+ System.out.println(set);
+ 
+ Output
+ [A, B]
+
+TreeSet:
+Sorted order
+Uses Red-Black Tree
+
+Set<Integer> set = new TreeSet<>();
+set.add(30);
+set.add(10);
+set.add(20);
+
+System.out.println(set);
+
+Output
+[10, 20, 30]
+
+HashSet vs TreeSet
+| Feature      | HashSet | TreeSet      |
+| ------------ | ------- | ------------ |
+| Order        | No      | Sorted       |
+| Performance  | Faster  | Slower       |
+| Null allowed | Yes     | No (Java 8+) |
+
+6. Queue Interface
+ Follows FIFO
+ PriorityQueue
+ Elements processed by priority
+ 
+ Queue<Integer> q = new PriorityQueue<>();
+ q.add(30);
+ q.add(10);
+ q.add(20);
+ 
+ System.out.println(q.poll());
+ 
+ Output
+ 10
+
+-----------------------------------------------------------------------------
+8. Map Interface
+Stores key-value pairs
+
+HashMap:
+No order
+Allows one null key
+
+Map<Integer, String> map = new HashMap<>();
+map.put(1, "Java");
+map.put(2, "Spring");
+
+System.out.println(map.get(1));
+
+Output:
+Java
+
+LinkedHashMap:
+Maintains insertion order
+
+TreeMap:
+Sorted by key
+
+Map<Integer, String> map = new TreeMap<>();
+map.put(3, "C");
+map.put(1, "A");
+map.put(2, "B");
+
+System.out.println(map);
+
+Output
+{1=A, 2=B, 3=C}
+
+HashMap vs Hashtable
+| Feature     | HashMap | Hashtable   |
+| ----------- | ------- | ----------- |
+| Thread-safe | No      | Yes         |
+| Null key    | Allowed | Not allowed |
+| Performance | Faster  | Slower      |
+| Legacy      | No      | Yes         |
+
+9. Iteration Techniques
+Using for-each
+for(String s : list) {
+    System.out.println(s);
+}
+
+Using Iterator
+Iterator<String> it = list.iterator();
+while(it.hasNext()) {
+    System.out.println(it.next());
+}
+
+
+✔ Allows safe removal
+
+10. Generics with Collections
+
+Ensures type safety
+
+List<String> list = new ArrayList<>();
+// list.add(10); ❌ Compile-time error
+
+11. Sorting Collections
+Using Collections.sort()
+List<Integer> list = Arrays.asList(3,1,2);
+Collections.sort(list);
+
+System.out.println(list);
+
+Output
+[1, 2, 3]
+
+Custom Sorting (Comparator)
+Collections.sort(list, (a,b) -> b - a);
+
+12. Fail-Fast vs Fail-Safe
+Fail-Fast
+Throws ConcurrentModificationException
+
+Example: ArrayList
+Fail-Safe
+Works on copy
+
+Example: CopyOnWriteArrayList
+
+13. Concurrent Collections (Important for 4+ yrs)
+| Collection           | Use Case          |
+| -------------------- | ----------------- |
+| ConcurrentHashMap    | High concurrency  |
+| CopyOnWriteArrayList | Read-heavy apps   |
+| BlockingQueue        | Producer-Consumer |
+
+14. Collections vs Arrays
+| Arrays             | Collections     |
+| ------------------ | --------------- |
+| Fixed size         | Dynamic         |
+| Faster             | Slightly slower |
+| No utility methods | Rich APIs       |
+
+15. Spring Boot Perspective
+
+Collections used for:
+
+Request/Response payloads
+
+Entity relationships
+
+Caching
+
+Data transformation
+
+Prefer immutable collections where possible
+
+Use streams + collections heavily
+
+16. Tricky Interview Questions:
+Q1. Why Map is not part of Collection?
+➡ It stores key-value pairs, not individual elements.
+
+Q2. Difference between List and Set?
+➡ List allows duplicates, Set does not.
+
+Q3. When to use TreeMap?
+➡ When sorted keys are required.
+
+Q4. How HashMap works internally?
+➡ Uses hashing, buckets, linked list/tree (Java 8).
+
+Q5. Which collection is thread-safe?
+➡ Hashtable, ConcurrentHashMap.
