@@ -1,0 +1,230 @@
+1. What is an Exception?
+
+An exception is an unexpected event that disrupts the normal flow of program execution.
+
+Examples:
+  Divide by zero
+  Null pointer access
+  File not found
+  Database connection failure  
+
+2. Why Exception Handling Is Important
+  Prevents application crash
+  Provides meaningful error messages
+  Maintains application flow
+  Mandatory for enterprise & production applications
+  Critical in Spring Boot REST APIs
+
+3. Exception Hierarchy
+Throwable
+ ├── Error
+ │     └── OutOfMemoryError, StackOverflowError
+ └── Exception
+       ├── Checked Exceptions
+       │      └── IOException, SQLException
+       └── Unchecked Exceptions
+              └── RuntimeException
+                     └── NullPointerException, ArithmeticException
+
+4. Types of Exceptions
+1. Checked Exceptions
+  Checked at compile time
+  Must be handled or declared
+
+Examples:
+  IOException
+  SQLException
+  FileNotFoundException
+  FileReader fr = new FileReader("file.txt"); // Compile-time error
+
+2. Unchecked Exceptions
+  Occur at runtime
+  Subclasses of RuntimeException
+
+Examples:
+  NullPointerException
+  ArithmeticException
+  ArrayIndexOutOfBoundsException
+
+3. Errors
+  Serious system issues
+  Not handled by application
+Examples:
+  OutOfMemoryError
+  StackOverflowError
+
+5. try-catch Block
+  public class Test {
+      public static void main(String[] args) {
+          try {
+              int a = 10 / 0;
+          } catch (ArithmeticException e) {
+              System.out.println("Cannot divide by zero");
+          }
+      }
+  }
+  
+  Output
+  Cannot divide by zero
+
+6. Multiple catch Blocks
+  try {
+      String s = null;
+      System.out.println(s.length());
+  } catch (ArithmeticException e) {
+      System.out.println("Arithmetic exception");
+  } catch (NullPointerException e) {
+      System.out.println("Null pointer exception");
+  }
+
+Output
+Null pointer exception
+⚠️ Child exception must come before parent
+
+7. finally Block
+    Executes always (except JVM crash)
+    Used for resource cleanup
+    
+    try {
+        int a = 10 / 2;
+        System.out.println(a);
+    } finally {
+        System.out.println("Finally block executed");
+    }
+    
+    Output
+    5
+    Finally block executed
+
+8. try-catch-finally
+  try {
+      int a = 10 / 0;
+  } catch (Exception e) {
+      System.out.println("Exception handled");
+  } finally {
+      System.out.println("Cleanup code");
+  }
+  Output
+  Exception handled
+  Cleanup code
+
+9. try-with-resources (Java 7+)
+  Automatically closes resources.
+  try (BufferedReader br = new BufferedReader(new FileReader("file.txt"))) {
+      System.out.println(br.readLine());
+  } catch (Exception e) {
+      System.out.println("Exception occurred");
+  }
+  ✔ Preferred over finally for closing resources
+  ✔ Used heavily in enterprise applications
+
+10. throw Keyword
+  Used to explicitly throw an exception.
+  public class Test {
+      static void validate(int age) {
+          if (age < 18)
+              throw new IllegalArgumentException("Not eligible");
+      }
+  
+      public static void main(String[] args) {
+          validate(16);
+      }
+  }
+  
+  Output
+  Exception in thread "main" java.lang.IllegalArgumentException: Not eligible
+
+11. throws Keyword
+    Used to declare exception to caller.
+    void readFile() throws IOException {
+        FileReader fr = new FileReader("file.txt");
+    }
+
+12. Custom Exceptions
+    Creating Custom Exception
+    class InvalidAgeException extends Exception {
+        InvalidAgeException(String msg) {
+            super(msg);
+        }
+    }
+    
+    Using Custom Exception
+    class Test {
+        static void checkAge(int age) throws InvalidAgeException {
+            if (age < 18)
+                throw new InvalidAgeException("Age must be >= 18");
+        }
+    
+        public static void main(String[] args) throws InvalidAgeException {
+            checkAge(16);
+        }
+    }
+
+13. Exception Propagation
+    Unchecked exceptions propagate automatically.
+    void m1() {
+        int a = 10 / 0;
+    }
+    
+    void m2() {
+        m1();
+    }
+    
+    public static void main(String[] args) {
+        new Test().m2();
+    }
+  ➡ Exception propagates until handled.
+
+  
+14. Difference: throw vs throws
+| Feature | throw                      | throws              |
+| ------- | -------------------------- | ------------------- |
+| Purpose | Explicitly throw exception | Declare exception   |
+| Usage   | Inside method              | Method signature    |
+| Count   | Single exception           | Multiple exceptions |
+
+16. Spring Boot Exception Handling (VERY IMPORTANT)
+  @ExceptionHandler
+  @ExceptionHandler(NullPointerException.class)
+  public ResponseEntity<String> handleNPE() {
+      return ResponseEntity.badRequest().body("Null value error");
+  }
+  
+  @ControllerAdvice (Global Exception Handling)
+  @RestControllerAdvice
+  public class GlobalExceptionHandler {
+  
+      @ExceptionHandler(Exception.class)
+      public ResponseEntity<String> handleAll(Exception ex) {
+          return ResponseEntity.internalServerError()
+                  .body(ex.getMessage());
+      }
+  }
+
+✔ Centralized handling
+✔ Clean controllers
+✔ Production-ready APIs
+
+17. Checked vs Unchecked (Interview Favorite)
+| Checked           | Unchecked                |
+| ----------------- | ------------------------ |
+| Compile-time      | Runtime                  |
+| Must handle       | Optional                 |
+| Extends Exception | Extends RuntimeException |
+
+18. Tricky Interview Questions
+Q1. Can finally block be skipped?
+➡ Yes, if System.exit() is called or JVM crashes.
+
+Q2. Can we have try without catch?
+➡ Yes, with finally.
+
+Q3. Can we throw multiple exceptions?
+➡ Yes, using multi-catch.
+catch (IOException | SQLException e)
+
+Q4. Can constructor throw exception?
+➡ Yes.
+
+Q5. What happens if exception occurs in finally?
+➡ Original exception gets suppressed.
