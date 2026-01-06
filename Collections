@@ -1,0 +1,78 @@
+1. What is the Collection Framework?
+
+The Java Collections Framework (JCF) is a unified architecture for storing, manipulating, and processing groups of objects.
+
+It provides:
+
+Interfaces
+
+Implementations (classes)
+
+Algorithms
+
+2. Why Collections Are Needed
+
+Dynamic size (unlike arrays)
+
+Built-in methods for searching, sorting, filtering
+
+Type safety with Generics
+
+Performance-optimized data structures
+
+Widely used in enterprise & Spring Boot applications
+
+3. Collection Hierarchy (High Level)
+Iterable
+ └── Collection
+      ├── List
+      │     ├── ArrayList
+      │     ├── LinkedList
+      │     └── Vector
+      ├── Set
+      │     ├── HashSet
+      │     ├── LinkedHashSet
+      │     └── TreeSet
+      └── Queue
+            ├── PriorityQueue
+            └── ArrayDeque
+
+
+⚠️ Map is not part of Collection interface but part of Collection Framework.
+
+4. List Interface
+
+Allows duplicate elements
+
+Maintains insertion order
+
+Index-based access
+
+ArrayList
+
+Dynamic array
+
+Fast read, slow insert/delete (middle)
+
+List<String> list = new ArrayList<>();
+list.add("Java");
+list.add("Spring");
+list.add("Java");
+
+System.out.println(list);
+
+Output
+[Java, Spring, Java]
+
+LinkedList:
+  Doubly linked list
+  Fast insert/delete, slow access
+  
+  List<Integer> list = new LinkedList<>();
+  list.add(10);
+  list.add(20);
+  
+  System.out.println(list.get(1));
+  
+  Output
+  20
