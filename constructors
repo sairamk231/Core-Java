@@ -1,0 +1,263 @@
+1. What is a Constructor?
+A constructor is a special method used to initialize objects.
+
+Key Characteristics
+  Name must be same as class name
+  No return type (not even void)
+  Can be overloaded
+  Cannot be static, final, abstract, or synchronized
+  Executed only once per object creation
+
+2. Why Do We Need Constructors?
+| Purpose            | Explanation                |
+| ------------------ | -------------------------- |
+| Initialization     | Assign initial values      |
+| Object consistency | Enforce mandatory data     |
+| Encapsulation      | Controlled object creation |
+| Immutability       | Initialize final fields    |
+
+  3. Types of Constructors in Java
+Java mainly supports:
+  Default Constructor
+  No-Argument Constructor
+  Parameterized Constructor
+
+1. Default Constructor
+
+Provided by the compiler only if no constructor is defined.
+
+  class Employee {
+      int id;
+      String name;
+  }
+  
+  public class Test {
+      public static void main(String[] args) {
+          Employee e = new Employee();
+          System.out.println(e.id);
+          System.out.println(e.name);
+      }
+  }
+  
+  Output
+  0
+  null
+⚠️ If you define any constructor, compiler will NOT create default constructor
+
+2. No-Argument Constructor (User-Defined)
+  class Employee {
+      Employee() {
+          System.out.println("No-arg constructor called");
+      }
+  }
+  
+  public class Test {
+      public static void main(String[] args) {
+          new Employee();
+      }
+  }
+  
+  Output
+  No-arg constructor called
+
+3. Parameterized Constructor
+    class Employee {
+        int id;
+        String name;
+    
+        Employee(int id, String name) {
+            this.id = id;
+            this.name = name;
+        }
+    }
+    
+    public class Test {
+        public static void main(String[] args) {
+            Employee e = new Employee(101, "Sai");
+            System.out.println(e.id + " " + e.name);
+        }
+    }
+    
+    Output
+    101 Sai
+
+4. Constructor Overloading
+  Multiple constructors with different parameter lists.
+
+  class Product {
+      Product() {
+          System.out.println("Default constructor");
+      }
+  
+      Product(int id) {
+          System.out.println("Product ID: " + id);
+      }
+  
+      Product(int id, String name) {
+          System.out.println(id + " " + name);
+      }
+  }
+  
+  public class Test {
+      public static void main(String[] args) {
+          new Product();
+          new Product(1);
+          new Product(2, "Laptop");
+      }
+  }
+  
+  Output:
+  Default constructor
+  Product ID: 1
+  2 Laptop
+
+5. Constructor Chaining
+  Using this()
+  Used to call another constructor of same class
+  Must be first statement
+
+  class Demo {
+      Demo() {
+          this(10);
+          System.out.println("Default constructor");
+      }
+  
+      Demo(int x) {
+          System.out.println("Parameterized constructor: " + x);
+      }
+  }
+  
+  public class Test {
+      public static void main(String[] args) {
+          new Demo();
+      }
+  }
+  
+  Output
+  Parameterized constructor: 10
+  Default constructor
+
+Using super():
+Calls parent class constructor
+If not written, compiler adds super() automatically
+    
+    class Parent {
+        Parent() {
+            System.out.println("Parent constructor");
+        }
+    }
+    
+    class Child extends Parent {
+        Child() {
+            super();
+            System.out.println("Child constructor");
+        }
+    }
+    
+    public class Test {
+        public static void main(String[] args) {
+            new Child();
+        }
+    }
+    
+    Output
+    Parent constructor
+    Child constructor
+
+6. Constructor Execution Order
+  Parent class constructor
+  Child class constructor
+
+  class A {
+      A() {
+          System.out.println("A");
+      }
+  }
+  
+  class B extends A {
+      B() {
+          System.out.println("B");
+      }
+  }
+  
+  public class Test {
+      public static void main(String[] args) {
+          new B();
+      }
+  }
+  
+  Output
+  A
+  B
+
+8. Constructor vs Method
+| Feature     | Constructor       | Method         |
+| ----------- | ----------------- | -------------- |
+| Name        | Same as class     | Any name       |
+| Return Type | No                | Yes            |
+| Invocation  | Automatic         | Manual         |
+| Purpose     | Initialize object | Business logic |
+| Inheritance | Not inherited     | Inherited      |
+
+9. Can Constructors Be Overridden?
+❌ No — constructors are not inherited
+But you can call parent constructor using super()
+
+10. Can Constructor Be final or static?
+❌ No
+Why?
+static: belongs to class, constructor belongs to object
+final: constructor cannot be inherited anyway 
+
+11. Exception Handling in Constructors
+class Test {
+    Test() throws Exception {
+        System.out.println("Constructor");
+    }
+}
+
+
+✔ Allowed
+✔ Common in file, DB initialization
+
+12. Spring Boot Perspective (Important for 4+ yrs exp)
+Constructor Injection (Recommended)
+@Service
+class UserService {
+
+    private final UserRepository repo;
+
+    public UserService(UserRepository repo) {
+        this.repo = repo;
+    }
+}
+
+Benefits
+  Immutability
+  Easier testing
+  Avoids circular dependency
+  Preferred over field injection
+
+13. Interview Tricky Questions
+Q1. What happens if no constructor is defined?
+➡ Compiler provides default constructor.
+
+Q2. Can constructor call another constructor?
+➡ Yes, using this() or super().
+
+Q3. Can we create object without constructor?
+➡ ❌ No (Reflection is exception – advanced topic)
+
+Q4. Why this() must be first statement?
+➡ To ensure proper object initialization order.
+
+Q5. Is constructor inherited?
+➡ ❌ No
+  
+Q6. Difference between default & no-arg constructor?
+  | Default                           | No-Arg             |
+| --------------------------------- | ------------------ |
+| Compiler provided                 | Developer provided |
+| Removed if any constructor exists | Always available   |
+
+  
