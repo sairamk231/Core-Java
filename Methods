@@ -1,0 +1,282 @@
+2. Types of Methods in Java (Big Picture)
+By Implementation:
+Concrete methods
+Abstract methods
+Default methods (interface)
+Static methods
+
+By Modifiers / Behavior:
+final
+synchronized
+native
+private, protected, public
+
+By Purpose:
+Instance methods
+Utility methods
+Factory methods
+Lifecycle callbacks
+
+3. Concrete Method (Most Common)
+What is a Concrete Method?
+
+Has method body
+Can be instance or static
+Can be overridden (unless final)
+
+Example
+class Calculator {
+    int add(int a, int b) {
+        return a + b;
+    }
+}
+
+public class Test {
+    public static void main(String[] args) {
+        Calculator c = new Calculator();
+        System.out.println(c.add(10, 20));
+    }
+}
+
+Output
+30
+
+4. Static Method
+What is a Static Method?
+
+Belongs to the class
+Can be called without object
+Cannot use this or super
+Cannot be overridden (method hiding)
+
+Example
+class MathUtil {
+    static int square(int x) {
+        return x * x;
+    }
+}
+
+public class Test {
+    public static void main(String[] args) {
+        System.out.println(MathUtil.square(5));
+    }
+}
+
+Output
+25
+
+Interview Rules
+
+Accessed using class name
+Compile-time binding
+Used for utility logic
+
+5. Instance Method
+
+Belongs to an object
+Can access instance variables
+Supports runtime polymorphism
+
+class Person {
+    String name = "Sai";
+
+    void greet() {
+        System.out.println("Hello " + name);
+    }
+}
+
+Output
+Hello Sai
+
+6. Abstract Method
+What is an Abstract Method?
+Declared with abstract
+No body
+Must be implemented by subclass
+Used to define contract
+
+Example
+abstract class Vehicle {
+    abstract void start();
+}
+
+class Car extends Vehicle {
+    void start() {
+        System.out.println("Car started");
+    }
+}
+
+public class Test {
+    public static void main(String[] args) {
+        Vehicle v = new Car();
+        v.start();
+    }
+}
+
+Output
+Car started
+
+Rules
+Abstract method ❌ cannot be final, static, or private
+Enables runtime polymorphism
+
+7. Default Method (Interface – Java 8+)
+What is a Default Method?
+Interface method with implementation
+Helps in backward compatibility
+
+Example
+interface Logger {
+    default void log() {
+        System.out.println("Logging...");
+    }
+}
+
+class AppLogger implements Logger {}
+
+public class Test {
+    public static void main(String[] args) {
+        new AppLogger().log();
+    }
+}
+
+Output
+Logging...
+
+Key Points
+Can be overridden
+Resolved at runtime
+
+8. Static Method in Interface
+interface Util {
+    static int add(int a, int b) {
+        return a + b;
+    }
+}
+
+public class Test {
+    public static void main(String[] args) {
+        System.out.println(Util.add(10, 20));
+    }
+}
+
+Output
+30
+
+✔ Called using interface name only
+
+9. Final Method
+What is a Final Method?
+Cannot be overridden
+Used to lock behavior
+
+class Parent {
+    final void show() {
+        System.out.println("Final method");
+    }
+}
+
+class Child extends Parent {
+    // void show() {} ❌
+}
+
+Output
+Final method
+
+10. Synchronized Method (Thread Safety)
+What is a Synchronized Method?
+Allows only one thread at a time
+Acquires object or class lock
+
+class Counter {
+    int count = 0;
+
+    synchronized void increment() {
+        count++;
+    }
+}
+
+✔ Prevents race condition
+❌ Performance cost
+
+11. Native Method
+What is a Native Method?
+
+Implemented in C/C++
+Uses JNI
+
+class NativeDemo {
+    native void show();
+}
+
+✔ Used for OS-level operations
+❌ Rare in application code
+
+12. Private Method
+
+Accessible only within the class
+Cannot be overridden
+Can be overloaded
+
+class Test {
+    private void secret() {
+        System.out.println("Private method");
+    }
+
+    void call() {
+        secret();
+    }
+}
+
+Output
+Private method
+
+13. Protected Method
+
+Accessible in:
+Same package
+Subclasses (even in different package)
+
+class Parent {
+    protected void show() {
+        System.out.println("Protected method");
+    }
+}
+
+14. Method Overloading (Compile-Time Polymorphism)
+class Calculator {
+    int add(int a, int b) { return a + b; }
+    double add(double a, double b) { return a + b; }
+}
+
+Output
+30
+30.5
+
+✔ Same name, different parameters
+❌ Return type alone not allowed
+
+15. Method Overriding (Runtime Polymorphism)
+class Parent {
+    void show() {
+        System.out.println("Parent");
+    }
+}
+
+class Child extends Parent {
+    void show() {
+        System.out.println("Child");
+    }
+}
+
+public class Test {
+    public static void main(String[] args) {
+        Parent p = new Child();
+        p.show();
+    }
+}
+
+Output
+Child
+
+16. Static vs Instance vs Abstract (🔥 Important Table)
