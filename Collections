@@ -27,9 +27,15 @@ Iterable
       └── Queue
             ├── PriorityQueue
             └── ArrayDeque
-
-
 ⚠️ Map is not part of Collection interface but part of Collection Framework.
+
+ List vs Set vs Map:
+| Feature    | List  | Set | Map     |
+| ---------- | ----- | --- | ------- |
+| Order      | Yes   | No  | No      |
+| Duplicates | Yes   | No  | Keys No |
+| Access     | Index | No  | Key     |
+
 
 4. List Interface
 Allows duplicate elements
@@ -240,20 +246,13 @@ Example: CopyOnWriteArrayList
 | No utility methods | Rich APIs       |
 
 15. Spring Boot Perspective
-
 Collections used for:
-
-Request/Response payloads
-
-Entity relationships
-
-Caching
-
-Data transformation
-
-Prefer immutable collections where possible
-
-Use streams + collections heavily
+ Request/Response payloads
+ Entity relationships
+ Caching
+ Data transformation
+ Prefer immutable collections where possible
+ Use streams + collections heavily
 
 16. Tricky Interview Questions:
 Q1. Why Map is not part of Collection?
