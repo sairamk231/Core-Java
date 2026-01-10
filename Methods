@@ -280,3 +280,9 @@ Output
 Child
 
 16. Static vs Instance vs Abstract (🔥 Important Table)
+| Feature       | Static | Instance | Abstract |
+| ------------- | ------ | -------- | -------- |
+| Belongs to    | Class  | Object   | Contract |
+| Override      | ❌      | ✅        | Must     |
+| Polymorphism  | ❌      | ✅        | Enables  |
+| Access `this` | ❌      | ✅        | ❌        |
