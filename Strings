@@ -1,0 +1,213 @@
+1. What is String in Java?
+String is a class in java.lang that represents a sequence of characters.
+
+Key Characteristics:
+Immutable (cannot be changed)
+Stored in String Constant Pool (SCP)
+Thread-safe by nature
+Frequently used in Java & Spring APIs
+
+String s = "Java";
+
+Interview one-liner
+“String is immutable, thread-safe, and optimized using String Constant Pool.”
+
+2. String Immutability (🔥 Very Important)
+Example
+public class Test {
+    public static void main(String[] args) {
+        String s = "Java";
+        s.concat(" Spring");
+
+        System.out.println(s);
+    }
+}
+
+Output
+Java
+👉 concat() creates a new object, original string remains unchanged.
+
+Correct Way:
+String s = "Java";
+s = s.concat(" Spring");
+System.out.println(s);
+
+Output
+Java Spring
+
+3. String Constant Pool (SCP)
+String s1 = "Java";
+String s2 = "Java";
+String s3 = new String("Java");
+
+| Comparison      | Result |
+| --------------- | ------ |
+| `s1 == s2`      | true   |
+| `s1 == s3`      | false  |
+| `s1.equals(s3)` | true   |
+
+👉 SCP avoids duplicate objects → memory optimization
+
+4. Important String Methods (🔥 Interview-Critical)
+  String s = "Java Spring Boot";
+| Method                      | Output                   |
+| --------------------------- | ------------------------ |
+| `s.length()`                | 16                       |
+| `s.charAt(0)`               | J                        |
+| `s.substring(5)`            | Spring Boot              |
+| `s.contains("Spring")`      | true                     |
+| `s.replace("Java", "Core")` | Core Spring Boot         |
+| `s.toUpperCase()`           | JAVA SPRING BOOT         |
+| `s.split(" ")`              | ["Java","Spring","Boot"] |
+| `s.trim()`                  | removes spaces           |
+
+5. equals() vs == (🔥 MUST KNOW)
+String a = "Java";
+String b = new String("Java");
+
+System.out.println(a == b);
+System.out.println(a.equals(b));
+
+Output
+false
+true
+
+== → reference comparison
+equals() → content comparison
+
+-------------------------------------------------------------------------------------------------------------------------
+6. What is StringBuilder?
+StringBuilder is a mutable sequence of characters.
+
+Key Characteristics:
+Mutable
+Not thread-safe
+Faster than StringBuffer
+Introduced in Java 5
+StringBuilder sb = new StringBuilder("Java");
+
+Interview one-liner
+“Use StringBuilder when you need fast, mutable strings in single-threaded scenarios.”
+
+7. StringBuilder Example
+public class Test {
+    public static void main(String[] args) {
+        StringBuilder sb = new StringBuilder("Java");
+        sb.append(" Spring");
+        sb.append(" Boot");
+
+        System.out.println(sb);
+    }
+}
+
+Output
+Java Spring Boot
+
+👉 Same object is modified → better performance
+
+8. StringBuilder Important Methods
+StringBuilder sb = new StringBuilder("Java");
+| Method                 | Result              |
+| ---------------------- | ------------------- |
+| `sb.append(" Spring")` | Java Spring         |
+| `sb.insert(4," Core")` | Java Core           |
+| `sb.delete(4,9)`       | Java                |
+| `sb.reverse()`         | avaJ                |
+| `sb.capacity()`        | default 16 + length |
+
+--------------------------------------------------------------------------------------------------------------
+9. What is StringBuffer?
+
+StringBuffer is similar to StringBuilder but thread-safe.
+
+Key Characteristics:
+Mutable
+Thread-safe (synchronized)
+Slower than StringBuilder
+Introduced in Java 1.0
+
+StringBuffer sb = new StringBuffer("Java");
+
+Interview one-liner
+“StringBuffer is thread-safe but slower due to synchronization.”
+
+10. StringBuffer Example
+public class Test {
+    public static void main(String[] args) {
+        StringBuffer sb = new StringBuffer("Java");
+        sb.append(" Spring");
+
+        System.out.println(sb);
+    }
+}
+
+Output
+Java Spring
+
+11. String vs StringBuilder vs StringBuffer (🔥 MOST IMPORTANT)
+| Feature     | String      | StringBuilder | StringBuffer |
+| ----------- | ----------- | ------------- | ------------ |
+| Mutability  | ❌ Immutable | ✅ Mutable     | ✅ Mutable    |
+| Thread-safe | ✅           | ❌             | ✅            |
+| Performance | Slow        | Fastest       | Slower       |
+| Memory      | SCP         | Heap          | Heap         |
+| Use case    | Constants   | Single-thread | Multi-thread |
+
+12. Performance Comparison (Interview Favorite 🔥)
+long start = System.currentTimeMillis();
+
+String s = "Java";
+for (int i = 0; i < 10000; i++) {
+    s = s + "a";
+}
+
+long end = System.currentTimeMillis();
+System.out.println(end - start);
+
+
+👉 Very slow due to multiple object creation
+
+StringBuilder (Fast)
+StringBuilder sb = new StringBuilder("Java");
+for (int i = 0; i < 10000; i++) {
+    sb.append("a");
+}
+
+✔ Reuses same object
+✔ Much faster
+
+13. Why String is Immutable? (🔥 Very Common Question)
+Security (ClassLoader, DB URLs)
+Thread safety
+Caching in SCP
+HashCode consistency (used in HashMap)
+
+14. Strings as HashMap Keys (Very Important)
+Map<String, String> map = new HashMap<>();
+map.put("key", "value");
+
+
+👉 Immutability ensures:
+HashCode doesn’t change
+Data integrity in collections
+
+15. StringBuilder vs StringBuffer – When to Use?
+| Scenario        | Choice        |
+| --------------- | ------------- |
+| Single thread   | StringBuilder |
+| Multi thread    | StringBuffer  |
+| Constants       | String        |
+| Logging / loops | StringBuilder |
+
+17. Common Tricky Interview Questions (4+ Years)
+Q1. Is String thread-safe?
+✅ Yes (immutable)
+
+Q2. Does StringBuilder override equals()?
+❌ No (uses Object.equals → reference comparison)
+
+Q3. Can StringBuffer and StringBuilder store null?
+❌ No (append(null) adds "null" string)
+
+Q4. Why StringBuilder is faster than String?
+Because it does not create new objects
