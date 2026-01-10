@@ -1,0 +1,128 @@
+1. What is an Array in Java?
+An array is a fixed-size, indexed data structure that stores elements of the same data type in contiguous memory locations.
+
+int[] arr = new int[5];
+
+
+Interview one-liner
+“An array is a fixed-size, indexed collection of homogeneous elements.”
+
+2. Key Characteristics of Arrays
+Fixed size (cannot grow/shrink)
+Zero-based index
+Stores homogeneous data
+Can store primitive or object references
+Stored in heap memory
+Length is immutable (length variable)
+
+3. Types of Arrays in Java
+3.1 One-Dimensional Array
+int[] arr = {10, 20, 30};
+
+3.2 Two-Dimensional Array
+int[][] matrix = new int[2][3];
+
+3.3 Multi-Dimensional Array
+int[][][] cube = new int[2][2][2];
+
+3.4 Jagged Array (Array of Arrays)
+int[][] jagged = new int[2][];
+jagged[0] = new int[2];
+jagged[1] = new int[3];
+
+10. Array Length vs String length()
+int[] a = new int[5];
+System.out.println(a.length); // property
+
+String s = "Java";
+System.out.println(s.length()); // method
+
+11. Arrays Class (java.util.Arrays) 🔥
+Common Methods:
+Arrays.sort(arr);
+Arrays.toString(arr);
+Arrays.binarySearch(arr, 20);
+Arrays.copyOf(arr, 5);
+Arrays.equals(arr1, arr2);
+
+Example
+import java.util.Arrays;
+
+public class Test {
+    public static void main(String[] args) {
+        int[] arr = {30, 10, 20};
+        Arrays.sort(arr);
+
+        System.out.println(Arrays.toString(arr));
+    }
+}
+
+Output
+[10, 20, 30]
+
+12. Copying Arrays
+Using loop:
+int[] copy = new int[arr.length];
+for (int i = 0; i < arr.length; i++) {
+    copy[i] = arr[i];
+}
+
+Using System.arraycopy():
+System.arraycopy(arr, 0, copy, 0, arr.length);
+
+Using Arrays.copyOf():
+int[] copy = Arrays.copyOf(arr, arr.length);
+
+13. Array of Objects (🔥 Important)
+class Employee {
+    int id;
+    Employee(int id) {
+        this.id = id;
+    }
+}
+
+public class Test {
+    public static void main(String[] args) {
+        Employee[] emp = new Employee[2];
+        emp[0] = new Employee(1);
+        emp[1] = new Employee(2);
+
+        for (Employee e : emp) {
+            System.out.println(e.id);
+        }
+    }
+}
+
+Output
+1
+2
+
+14. Arrays vs Collections (🔥 Very Common)
+| Feature     | Array       | Collection      |
+| ----------- | ----------- | --------------- |
+| Size        | Fixed       | Dynamic         |
+| Data type   | Homogeneous | Objects only    |
+| Performance | Faster      | Slightly slower |
+| Generics    | ❌           | ✅            |
+| Utilities   | Limited     | Rich API        |
+
+15. Sorting & Searching
+Binary Search (Sorted Array)
+int index = Arrays.binarySearch(arr, 20);
+
+16. Common Exceptions
+ArrayIndexOutOfBoundsException
+int[] a = new int[3];
+System.out.println(a[5]);
+
+NullPointerException
+int[] a = null;
+System.out.println(a.length);
+
+17. Arrays & Performance
+
+Access → O(1)
+Search (linear) → O(n)
+Binary search → O(log n) (sorted)
+Memory efficient
+No resizing cost
