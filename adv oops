@@ -1,0 +1,320 @@
+1. Association
+What is Association?
+Association represents a relationship between two independent classes.
+Describes “uses-a” relationship
+Objects have their own lifecycle
+Can be one-to-one, one-to-many, many-to-many
+
+Interview one-liner
+“Association defines a relationship where objects are loosely connected.”
+
+Example (Association)
+class Address {
+    String city;
+
+    Address(String city) {
+        this.city = city;
+    }
+}
+
+class Employee {
+    String name;
+    Address address;
+
+    Employee(String name, Address address) {
+        this.name = name;
+        this.address = address;
+    }
+
+    void show() {
+        System.out.println(name + " lives in " + address.city);
+    }
+}
+
+public class Test {
+    public static void main(String[] args) {
+        Address addr = new Address("Hyderabad");
+        Employee emp = new Employee("Sai", addr);
+        emp.show();
+    }
+}
+
+Output
+Sai lives in Hyderabad
+✔ Both Employee and Address exist independently
+✔ Destroying one doesn’t affect the other
+------------------------------------------------------------------------------------------------------
+2. Aggregation (Weak HAS-A Relationship)
+What is Aggregation?
+Aggregation is a special form of association that represents HAS-A relationship.
+Child object can exist independently
+Relationship is weak
+Represented by reference field
+
+Interview one-liner
+“Aggregation represents a HAS-A relationship with independent lifecycles.”
+
+Example (Aggregation)
+class Department {
+    String deptName;
+
+    Department(String deptName) {
+        this.deptName = deptName;
+    }
+}
+
+class Employee {
+    String name;
+    Department department; // aggregation
+
+    Employee(String name, Department department) {
+        this.name = name;
+        this.department = department;
+    }
+
+    void show() {
+        System.out.println(name + " works in " + department.deptName);
+    }
+}
+
+public class Test {
+    public static void main(String[] args) {
+        Department dept = new Department("IT");
+        Employee emp = new Employee("Ram", dept);
+        emp.show();
+    }
+}
+
+Output
+Ram works in IT
+✔ Department can exist without Employee
+✔ Employee can change department
+-----------------------------------------------------------------------------------------------------------------------
+3. Composition (Strong HAS-A Relationship 🔥)
+What is Composition?
+Composition is a strong HAS-A relationship where:
+Child object cannot exist independently
+Lifecycle of child is bound to parent
+Strong ownership
+
+Interview one-liner
+“Composition represents a strong HAS-A relationship with dependent lifecycles.”
+
+Example (Composition)
+class Engine {
+    void start() {
+        System.out.println("Engine started");
+    }
+}
+
+class Car {
+    private final Engine engine = new Engine(); // composition
+
+    void startCar() {
+        engine.start();
+        System.out.println("Car started");
+    }
+}
+
+public class Test {
+    public static void main(String[] args) {
+        Car car = new Car();
+        car.startCar();
+    }
+}
+
+Output
+Engine started
+Car started
+
+✔ Engine cannot exist without Car
+✔ When Car is destroyed → Engine is destroyed
+
+4. Aggregation vs Composition (🔥 Very Important)
+| Feature      | Aggregation         | Composition  |
+| ------------ | ------------------- | ------------ |
+| Relationship | HAS-A               | Strong HAS-A |
+| Ownership    | Weak                | Strong       |
+| Lifecycle    | Independent         | Dependent    |
+| Example      | Employee–Department | Car–Engine   |
+| Coupling     | Looser              | Tighter      |
+
+5. Coupling
+What is Coupling?
+Coupling measures how strongly one class depends on another.
+Tight coupling → Hard to change, test, maintain
+Loose coupling → Flexible, scalable
+
+Interview one-liner
+“Coupling defines the degree of dependency between classes.”
+
+Tight Coupling (Bad ❌)
+class Engine {
+    void start() {
+        System.out.println("Engine started");
+    }
+}
+
+class Car {
+    Engine engine = new Engine(); // tightly coupled
+
+    void start() {
+        engine.start();
+    }
+}
+
+Problems:
+Cannot replace Engine
+Hard to test
+No flexibility
+
+Loose Coupling (Good ✅)
+interface Engine {
+    void start();
+}
+
+class PetrolEngine implements Engine {
+    public void start() {
+        System.out.println("Petrol engine started");
+    }
+}
+
+class Car {
+    private Engine engine;
+
+    Car(Engine engine) {
+        this.engine = engine;
+    }
+
+    void start() {
+        engine.start();
+    }
+}
+
+public class Test {
+    public static void main(String[] args) {
+        Engine engine = new PetrolEngine();
+        Car car = new Car(engine);
+        car.start();
+    }
+}
+
+Output
+Petrol engine started
+✔ Easy to replace engine
+✔ Testable & extensible
+✔ Best practice
+
+6. Coupling in Spring Boot (🔥 Interview Gold)
+@Service
+class OrderService {
+    private final PaymentService paymentService;
+
+    OrderService(PaymentService paymentService) {
+        this.paymentService = paymentService;
+    }
+}
+
+✔ Dependency Injection
+✔ Interface-based design
+✔ Loose coupling by default
+
+7. Cohesion
+What is Cohesion?
+Cohesion measures how closely related responsibilities of a class are.
+High cohesion → Single responsibility
+Low cohesion → God class (bad design)
+
+Interview one-liner
+“Cohesion defines how focused a class is on a single responsibility.”
+
+Low Cohesion (Bad ❌)
+class UserService {
+    void saveUser() {}
+    void sendEmail() {}
+    void generateReport() {}
+}
+
+
+Problems:
+Multiple responsibilities
+Hard to maintain
+Violates SRP
+
+High Cohesion (Good ✅)
+class UserService {
+    void saveUser() {
+        System.out.println("User saved");
+    }
+}
+
+class EmailService {
+    void sendEmail() {
+        System.out.println("Email sent");
+    }
+}
+
+Output
+User saved
+Email sent
+
+✔ Single responsibility
+✔ Easy to modify & test
+
+8. Coupling vs Cohesion (🔥 MUST-REMEMBER)
+| Coupling               | Cohesion                   |
+| ---------------------- | -------------------------- |
+| Inter-class dependency | Intra-class responsibility |
+| Should be **LOW**      | Should be **HIGH**         |
+| Design-level           | Class-level                |
+| Affects flexibility    | Affects clarity            |
+
+Golden Rule
+“Low coupling and high cohesion lead to good design.”
+
+9 Association vs Aggregation vs Composition (Quick Comparison)
+| Aspect       | Association     | Aggregation   | Composition    |
+| ------------ | --------------- | ------------- | -------------- |
+| Relationship | Uses-A          | HAS-A (weak)  | HAS-A (strong) |
+| Dependency   | Low             | Medium        | High           |
+| Lifecycle    | Independent     | Independent   | Dependent      |
+| Example      | Teacher–Student | Employee–Dept | Car–Engine     |
+
+10. Real-World Mapping (Use in Interview)
+| Concept        | Example              |
+| -------------- | -------------------- |
+| Association    | Doctor – Patient     |
+| Aggregation    | Team – Player        |
+| Composition    | House – Room         |
+| Loose Coupling | Controller → Service |
+| High Cohesion  | Separate services    |
+
+11. JVM / Design Perspective
+Composition → Object references
+Aggregation → External object references
+Coupling → Compile-time dependency
+Cohesion → Logical responsibility grouping
+
+12. Common Tricky Interview Questions (4+ Years)
+Q1. Is aggregation a type of association?
+✅ Yes
+
+Q2. Which is stronger: aggregation or composition?
+✅ Composition
+
+Q3. Can composition exist without aggregation?
+❌ No — composition is a form of aggregation
+
+Q4. How does Spring achieve loose coupling?
+Interfaces
+Dependency Injection
+Proxies
+
+Q5. Does inheritance increase coupling?
+✅ Yes — inheritance is tightly coupled
+
+13. Interview One-Liners (Use These)
+“Composition is stronger than aggregation.”
+“Prefer composition over inheritance.”
+“Low coupling and high cohesion define good design.”
+“Spring promotes loose coupling via DI.”
