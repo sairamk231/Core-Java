@@ -1,0 +1,339 @@
+1. What is Multithreading?
+
+Multithreading is the ability of a program to execute multiple threads concurrently to maximize CPU utilization.
+A thread is a lightweight sub-process
+Part of the same process
+Shares memory (heap)
+
+Interview one-liner
+“Multithreading allows concurrent execution of tasks within a single process.”
+
+2. Why Multithreading?
+| Benefit          | Explanation                      |
+| ---------------- | -------------------------------- |
+| Performance      | Better CPU utilization           |
+| Responsiveness   | Non-blocking UI / APIs           |
+| Scalability      | Parallel task execution          |
+| Resource sharing | Lower memory cost than processes |
+
+3. Process vs Thread (🔥 Very Common)
+| Process             | Thread              |
+| ------------------- | ------------------- |
+| Heavyweight         | Lightweight         |
+| Own memory          | Shared memory       |
+| Slow context switch | Fast context switch |
+| Independent         | Dependent           |
+
+4. Thread Creation in Java (2 Ways)
+4.1 Extending Thread Class
+class MyThread extends Thread {
+    public void run() {
+        System.out.println("Thread running");
+    }
+}
+
+public class Test {
+    public static void main(String[] args) {
+        MyThread t = new MyThread();
+        t.start();
+    }
+}
+
+Output
+Thread running
+
+4.2 Implementing Runnable (Preferred ✅)
+class MyTask implements Runnable {
+    public void run() {
+        System.out.println("Runnable thread");
+    }
+}
+
+public class Test {
+    public static void main(String[] args) {
+        Thread t = new Thread(new MyTask());
+        t.start();
+    }
+}
+
+Output
+Runnable thread
+
+Why Runnable is Better?
+
+✔ Supports multiple inheritance
+✔ Better design
+✔ Preferred in enterprise apps
+
+5. Thread Lifecycle (🔥 MUST-KNOW)
+NEW → RUNNABLE → RUNNING → WAITING/BLOCKED → TERMINATED
+
+States:
+NEW – Thread created
+RUNNABLE – Ready to run
+RUNNING – CPU executing
+WAITING / BLOCKED – Waiting for resource
+TERMINATED – Execution completed
+
+6. Important Thread Methods
+t.start();      // start thread
+t.run();        // executes like normal method
+t.sleep(ms);    // pause execution
+t.join();       // wait for thread to finish
+t.getName();
+t.setPriority();
+
+7. start() vs run() (🔥 Tricky)
+t.start(); // creates new thread
+t.run();   // no new thread
+
+Interview Tip:
+“Calling run() does NOT create a new thread.”
+
+8. Thread Priorities
+Thread.MIN_PRIORITY  // 1
+Thread.NORM_PRIORITY // 5
+Thread.MAX_PRIORITY  // 10
+
+⚠ JVM may ignore priorities (OS dependent)
+
+9. Sleep Example
+class MyThread extends Thread {
+    public void run() {
+        try {
+            Thread.sleep(1000);
+            System.out.println("After sleep");
+        } catch (Exception e) {}
+    }
+}
+
+public class Test {
+    public static void main(String[] args) {
+        new MyThread().start();
+    }
+}
+
+Output
+After sleep
+
+10. Join Example
+class MyThread extends Thread {
+    public void run() {
+        System.out.println("Child thread");
+    }
+}
+
+public class Test {
+    public static void main(String[] args) throws Exception {
+        MyThread t = new MyThread();
+        t.start();
+        t.join();
+        System.out.println("Main thread");
+    }
+}
+
+Output
+Child thread
+Main thread
+
+11. Synchronization (🔥 VERY IMPORTANT)
+Problem: Race Condition
+class Counter {
+    int count = 0;
+
+    void increment() {
+        count++;
+    }
+}
+
+❌ Not thread-safe
+
+11.1 Synchronized Method
+class Counter {
+    int count = 0;
+
+    synchronized void increment() {
+        count++;
+    }
+}
+
+✔ Only one thread at a time
+✔ Uses object-level lock
+
+11.2 Synchronized Block (Better)
+synchronized(this) {
+    count++;
+}
+
+✔ Fine-grained locking
+✔ Better performance
+
+12. Object-Level vs Class-Level Lock
+synchronized(this)        // object lock
+synchronized(ClassName.class) // class lock
+
+13. Inter-Thread Communication (🔥)
+wait(), notify(), notifyAll()
+class Shared {
+    synchronized void produce() throws Exception {
+        System.out.println("Producing...");
+        wait();
+        System.out.println("Resumed");
+    }
+
+    synchronized void consume() {
+        System.out.println("Consuming...");
+        notify();
+    }
+}
+
+14. Deadlock (🔥 Must Explain)
+Example
+synchronized(A) {
+    synchronized(B) {}
+}
+
+Another thread:
+
+synchronized(B) {
+    synchronized(A) {}
+}
+
+👉 Both wait forever
+
+Prevention
+Avoid nested locks
+Use consistent lock order
+Use tryLock()
+
+15. Volatile Keyword
+volatile boolean flag = true;
+✔ Visibility guarantee
+❌ No atomicity
+
+16. Thread Safety Techniques
+| Technique              | Use              |
+| ---------------------- | ---------------- |
+| synchronized           | Mutual exclusion |
+| volatile               | Visibility       |
+| Atomic classes         | Lock-free        |
+| Concurrent collections | Thread-safe data |
+
+17. Executor Framework (🔥 ENTERPRISE MUST-KNOW)
+Problem with Manual Threads
+Resource exhaustion
+Poor scalability
+
+Executor Example
+ExecutorService executor =
+    Executors.newFixedThreadPool(2);
+
+executor.submit(() -> System.out.println("Task"));
+executor.shutdown();
+
+Output
+Task
+
+18. Callable & Future
+Callable<Integer> task = () -> 10;
+
+ExecutorService ex = Executors.newSingleThreadExecutor();
+Future<Integer> f = ex.submit(task);
+
+System.out.println(f.get());
+ex.shutdown();
+
+Output
+10
+
+✔ Returns result
+✔ Can throw exception
+
+19. Concurrent Collections (🔥)
+| Collection           | Use               |
+| -------------------- | ----------------- |
+| ConcurrentHashMap    | Thread-safe map   |
+| CopyOnWriteArrayList | Read-heavy list   |
+| BlockingQueue        | Producer-consumer |
+
+20. Producer-Consumer (BlockingQueue)
+BlockingQueue<Integer> q = new ArrayBlockingQueue<>(1);
+q.put(1);
+System.out.println(q.take());
+
+Output
+1
+
+21. Atomic Classes
+AtomicInteger count = new AtomicInteger(0);
+count.incrementAndGet();
+
+✔ Lock-free
+✔ High performance
+
+22. ForkJoin Framework (Advanced)
+Divide & conquer
+Parallel computation
+Used in Streams
+
+23. Multithreading in Spring Boot (🔥 Interview Gold)
+@Async
+@Async
+public void process() {
+    System.out.println("Async thread");
+}
+
+✔ Runs in separate thread
+✔ Needs @EnableAsync
+
+TaskExecutor
+ThreadPoolTaskExecutor executor;
+
+✔ Managed thread pool
+✔ Production ready
+
+24. Common Multithreading Interview Questions
+Q1. Is String thread-safe?
+
+✅ Yes (immutable)
+
+Q2. Difference between sleep() and wait()?
+| sleep           | wait          |
+| --------------- | ------------- |
+| Thread class    | Object class  |
+| No lock release | Releases lock |
+
+Q3. Can we restart a thread?
+❌ No (IllegalThreadStateException)
+
+Q4. Difference between Runnable and Callable?
+| Runnable     | Callable            |
+| ------------ | ------------------- |
+| No return    | Returns value       |
+| No exception | Can throw exception |
+
+Q5. How Spring handles concurrency?
+Thread pools
+Proxies
+Async execution
+
+25. Performance & JVM Perspective
+Context switching cost
+Heap shared across threads
+Stack per thread
+Excess threads reduce performance
+
+26. Linking Topics (Prepare Together 🔗)
+Java Memory Model (JMM)
+Happens-before relationship
+Concurrent Collections
+Executor internals
+Reactive programming
+Spring WebFlux
+JVM tuning
+
+27. Interview One-Liners (Use These)
+“Thread is a lightweight process.”
+“Synchronization ensures mutual exclusion.”
+“Executor framework manages threads efficiently.”
+“Spring uses thread pools for scalability.”
