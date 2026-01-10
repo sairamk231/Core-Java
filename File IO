@@ -1,0 +1,296 @@
+1. What is File I/O in Java?
+File I/O (Input/Output) is used to read data from and write data to files.
+
+Java provides two major APIs:
+java.io (Legacy / Stream-based)
+java.nio / java.nio.file (Modern, faster, non-blocking support)
+
+Interview one-liner
+“Java File I/O allows persistent storage and retrieval of data using stream and NIO-based APIs.”
+
+2. Types of I/O in Java
+Based on Data Type
+
+| Type             | Description | Examples          |
+| ---------------- | ----------- | ----------------- |
+| Byte Stream      | Binary data | `FileInputStream` |
+| Character Stream | Text data   | `FileReader`      |
+
+Based on Direction
+| Type   | Examples                             |
+| ------ | ------------------------------------ |
+| Input  | `FileInputStream`, `BufferedReader`  |
+| Output | `FileOutputStream`, `BufferedWriter` |
+
+3. File Class (java.io.File) – Basics
+Purpose
+
+Represents file or directory metadata
+
+❌ Does NOT read/write content
+
+Example
+import java.io.File;
+
+public class Test {
+    public static void main(String[] args) {
+        File file = new File("test.txt");
+
+        System.out.println(file.exists());
+        System.out.println(file.getAbsolutePath());
+    }
+}
+
+Output
+false
+C:\project\test.txt
+
+4. Byte Streams (Binary Data)
+4.1 FileOutputStream (Write)
+import java.io.*;
+
+public class Test {
+    public static void main(String[] args) throws Exception {
+        FileOutputStream fos = new FileOutputStream("data.txt");
+        fos.write("Java File IO".getBytes());
+        fos.close();
+
+        System.out.println("File written");
+    }
+}
+
+Output
+File written
+
+4.2 FileInputStream (Read)
+import java.io.*;
+
+public class Test {
+    public static void main(String[] args) throws Exception {
+        FileInputStream fis = new FileInputStream("data.txt");
+        int ch;
+        while ((ch = fis.read()) != -1) {
+            System.out.print((char) ch);
+        }
+        fis.close();
+    }
+}
+
+Output
+Java File IO
+
+5. Character Streams (Text Data – Preferred)
+5.1 FileWriter (Write)
+import java.io.*;
+
+public class Test {
+    public static void main(String[] args) throws Exception {
+        FileWriter fw = new FileWriter("text.txt");
+        fw.write("Hello Java");
+        fw.close();
+
+        System.out.println("Done");
+    }
+}
+
+Output
+Done
+
+5.2 FileReader (Read)
+import java.io.*;
+
+public class Test {
+    public static void main(String[] args) throws Exception {
+        FileReader fr = new FileReader("text.txt");
+        int ch;
+        while ((ch = fr.read()) != -1) {
+            System.out.print((char) ch);
+        }
+        fr.close();
+    }
+}
+
+Output
+Hello Java
+
+6. Buffered Streams (🔥 VERY IMPORTANT)
+Why Buffered?
+Improves performance
+Reduces disk I/O calls
+
+BufferedWriter + BufferedReader
+import java.io.*;
+
+public class Test {
+    public static void main(String[] args) throws Exception {
+
+        BufferedWriter bw = new BufferedWriter(new FileWriter("buffer.txt"));
+        bw.write("Buffered IO Example");
+        bw.newLine();
+        bw.write("Java");
+        bw.close();
+
+        BufferedReader br = new BufferedReader(new FileReader("buffer.txt"));
+        String line;
+        while ((line = br.readLine()) != null) {
+            System.out.println(line);
+        }
+        br.close();
+    }
+}
+
+Output
+Buffered IO Example
+Java
+
+7. Try-With-Resources (Java 7+) 🔥
+Problem (Before)
+
+Must manually close streams
+
+Solution
+import java.io.*;
+
+public class Test {
+    public static void main(String[] args) throws Exception {
+        try (BufferedReader br =
+                new BufferedReader(new FileReader("buffer.txt"))) {
+
+            System.out.println(br.readLine());
+        }
+    }
+}
+
+
+✔ Auto-closes resources
+✔ Cleaner & safer
+
+8. Object Serialization (🔥 Interview Favorite)
+8.1 Serializable Interface
+import java.io.*;
+
+class Employee implements Serializable {
+    int id;
+    String name;
+
+    Employee(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+}
+
+8.2 Serialization (Write Object)
+ObjectOutputStream oos =
+    new ObjectOutputStream(new FileOutputStream("emp.ser"));
+oos.writeObject(new Employee(1, "Sai"));
+oos.close();
+
+8.3 Deserialization (Read Object)
+ObjectInputStream ois =
+    new ObjectInputStream(new FileInputStream("emp.ser"));
+
+Employee e = (Employee) ois.readObject();
+System.out.println(e.id + " " + e.name);
+ois.close();
+
+Output
+1 Sai
+
+Key Points:
+transient fields are NOT serialized
+serialVersionUID recommended
+
+9. Java NIO (Modern I/O) 🔥🔥
+9.1 Path & Files API (Java 7+)
+import java.nio.file.*;
+
+public class Test {
+    public static void main(String[] args) throws Exception {
+        Path path = Paths.get("nio.txt");
+
+        Files.write(path, "NIO File API".getBytes());
+
+        String content = Files.readString(path);
+        System.out.println(content);
+    }
+}
+
+Output
+NIO File API
+
+Advantages of NIO:
+Faster
+Less boilerplate
+Supports non-blocking I/O
+Better for large files
+
+10. Copy / Move / Delete Files (NIO)
+Files.copy(src, dest);
+Files.move(src, dest);
+Files.delete(path);
+
+11. Reading Large Files (Best Practice)
+Files.lines(Path.of("large.txt"))
+     .forEach(System.out::println);
+
+✔ Lazy loading
+✔ Memory efficient
+
+12. File Permissions & Metadata
+System.out.println(Files.isReadable(path));
+System.out.println(Files.size(path));
+System.out.println(Files.getLastModifiedTime(path));
+
+13. File I/O in Spring Boot (🔥 Real-World)
+13.1 File Upload
+@PostMapping("/upload")
+public String upload(@RequestParam MultipartFile file) throws Exception {
+    Files.write(Path.of(file.getOriginalFilename()), file.getBytes());
+    return "Uploaded";
+}
+
+13.2 Reading Config / Reports
+CSV export
+Log files
+PDF / Excel generation
+
+14. Common Interview Comparisons
+| FileReader | BufferedReader |
+| ---------- | -------------- |
+| Slow       | Fast           |
+| Reads char | Reads line     |
+| No buffer  | Uses buffer    |
+
+| IO           | NIO           |
+| ------------ | ------------- |
+| Blocking     | Non-blocking  |
+| Stream-based | Channel-based |
+| Slower       | Faster        |
+
+15. Common Tricky Interview Questions (4+ Years)
+Q1. Difference between byte & character streams?
+Byte → binary
+Character → text (Unicode)
+
+Q2. Why BufferedReader is faster?
+Reads data in chunks instead of char-by-char
+
+Q3. Why use NIO?
+Performance, scalability, cleaner API
+
+Q4. What is transient?
+Prevents field serialization
+
+Q5. How to handle large files?
+Buffered streams
+Files.lines()
+Streaming
+
+16. Linking Topics (Prepare Together 🔗)
+Exception handling (IOException)
+Try-with-resources
+Serialization vs JSON
+NIO Channels & Buffers
+Spring MultipartFile
+Logging frameworks
+CSV / Excel / PDF generation
