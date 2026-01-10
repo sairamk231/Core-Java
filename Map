@@ -1,0 +1,241 @@
+1. What is Map in Java?
+Map is not a part of Collection hierarchy.
+It stores data in key–value pairs.
+
+Key Characteristics:
+  Keys are unique
+  Values can be duplicate
+  No index-based access
+  Order depends on implementation
+  Map<Integer, String> map = new HashMap<>();
+
+Interview one-liner:
+“Map stores data as key–value pairs where keys are unique.”
+
+2. Map Hierarchy (Must-Know):
+Map
+ ├── HashMap
+ │     └── LinkedHashMap
+ ├── Hashtable
+ └── SortedMap
+        └── NavigableMap
+             └── TreeMap
+
+3. Common Map Implementations:
+| Map Type          | Order     | Thread-Safe | Allows null        | Best Use        |
+| ----------------- | --------- | ----------- | ------------------ | --------------- |
+| HashMap           | No order  | ❌           | 1 key, many values | Fast lookup     |
+| LinkedHashMap     | Insertion | ❌           | Yes                | Order + fast    |
+| TreeMap           | Sorted    | ❌           | ❌ key              | Sorted keys     |
+| Hashtable         | No order  | ✅           | ❌                  | Legacy          |
+| ConcurrentHashMap | No order  | ✅           | ❌                  | Concurrent apps |
+
+5. LinkedHashMap (Insertion Order)
+Map<Integer, String> map = new LinkedHashMap<>();
+map.put(3, "C");
+map.put(1, "Java");
+map.put(2, "Spring");
+
+System.out.println(map);
+
+Output
+{3=C, 1=Java, 2=Spring}
+
+6. TreeMap (Sorted Map)
+Map<Integer, String> map = new TreeMap<>();
+map.put(3, "C");
+map.put(1, "Java");
+map.put(2, "Spring");
+
+System.out.println(map);
+
+Output
+{1=Java, 2=Spring, 3=C}
+
+Key Points:
+Sorted by key
+❌ No null key
+Uses Red-Black Tree
+O(log n) operations
+
+7. Hashtable (Legacy):
+Map<Integer, String> map = new Hashtable<>();
+map.put(1, "Java");
+// map.put(null, "Test"); ❌
+
+System.out.println(map);
+
+Thread-safe
+Poor performance
+Rarely used
+
+8. Important Map Methods (🔥 Interview-Critical)
+  Add / Update:
+  map.put(1, "Java");
+  map.putIfAbsent(2, "Spring");
+  
+  Read:
+  map.get(1);
+  map.getOrDefault(3, "NA");
+  
+  Remove:
+  map.remove(1);
+  map.remove(2, "Spring");
+  
+  Check:
+  map.containsKey(1);
+  map.containsValue("Java");
+  
+  Size & Clear:
+  map.size();
+  map.isEmpty();
+  map.clear();
+
+9. Iterating Over Map (🔥 Very Common)
+Using entrySet (Best)
+for (Map.Entry<Integer, String> entry : map.entrySet()) {
+    System.out.println(entry.getKey() + " " + entry.getValue());
+}
+
+Output
+1 Java
+2 Spring
+
+Using keySet:
+for (Integer key : map.keySet()) {
+    System.out.println(key + " " + map.get(key));
+}
+
+Using values:
+for (String value : map.values()) {
+    System.out.println(value);
+}
+
+Using Java 8 forEach
+map.forEach((k, v) -> System.out.println(k + " " + v));
+
+10. HashMap Internal Working (🔥 MUST-KNOW for 4+ yrs)
+
+Uses array + linked list + red-black tree
+
+Uses:
+hashCode()
+equals()
+Put Operation Flow
+Compute hash
+Find bucket
+Compare keys using equals()
+Replace or insert
+
+👉 Since Java 8:
+Bucket size > 8 → TreeNode (Red-Black Tree)
+
+11. Custom Object as Key in HashMap (🔥 VERY IMPORTANT)
+Employee Class:
+class Employee {
+    int id;
+
+    Employee(int id) {
+        this.id = id;
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        Employee e = (Employee) obj;
+        return this.id == e.id;
+    }
+}
+
+Test
+Map<Employee, String> map = new HashMap<>();
+map.put(new Employee(1), "Sai");
+map.put(new Employee(1), "Ram");
+
+System.out.println(map.size());
+
+Output
+1
+👉 Without overriding hashCode() & equals(), duplicates occur ❗
+
+12. TreeMap with Custom Object
+  Using Comparable
+  class Employee implements Comparable<Employee> {
+      int id;
+  
+      Employee(int id) {
+          this.id = id;
+      }
+  
+      public int compareTo(Employee e) {
+          return this.id - e.id;
+      }
+  }
+
+13. Map vs Set vs List (Interview Favorite)
+| Feature    | List  | Set     | Map     |
+| ---------- | ----- | ------- | ------- |
+| Duplicates | Yes   | No      | Keys No |
+| Order      | Yes   | Depends | Depends |
+| Access     | Index | No      | Key     |
+
+14. ConcurrentHashMap (🔥 Important)
+Map<Integer, String> map = new ConcurrentHashMap<>();
+map.put(1, "Java");
+
+Key Points:
+Thread-safe
+No null key/value
+No ConcurrentModificationException
+Segment locking (Java 7)
+CAS-based (Java 8)
+
+15. Map with Streams (Modern Java)
+map.entrySet()
+   .stream()
+   .filter(e -> e.getKey() > 1)
+   .forEach(System.out::println);
+
+16. Immutable Map (Java 9+)
+Map<Integer, String> map = Map.of(1, "Java", 2, "Spring");
+// map.put(3, "Boot"); ❌
+✔ Immutable
+✔ Thread-safe
+✔ No nulls
+
+17. Map in Spring Boot (Real-World Usage)
+  Configuration Properties
+  Map<String, String> headers;
+  
+  Request Params
+  @RequestParam Map<String, String> params
+  
+  JPA ElementCollection
+  @ElementCollection
+  private Map<String, String> attributes;
+
+18. Performance Complexity
+  Operation	HashMap	TreeMap
+  put/get	O(1)	O(log n)
+  remove	O(1)	O(log n)
+
+19. Common Tricky Interview Questions
+Q1. Why HashMap allows one null key?
+Hashing logic allows it
+
+Q2. Why TreeMap doesn’t allow null key?
+Comparison causes NullPointerException
+
+Q3. Difference between HashMap and Hashtable?
+Thread-safety, performance, nulls
+
+Q4. How HashMap avoids infinite loop (Java 8)?
+Red-Black Tree instead of linked list
+
+Q5. When to use LinkedHashMap?
+When order + performance is required
+
