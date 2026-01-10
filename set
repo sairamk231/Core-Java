@@ -1,0 +1,247 @@
+1. What is Set in Java?
+Set is a collection interface in java.util that represents a collection of unique elements.
+
+Key Characteristics:
+❌ No duplicates
+❌ No index-based access
+Order depends on implementation
+Allows at most one null (implementation-dependent)
+Set<String> set = new HashSet<>();
+
+Interview one-liner:
+“Set is a collection that does not allow duplicate elements.”
+
+3. Common Set Implementations
+| Implementation | Ordering        | Data Structure           | Thread-Safe | Best Use           |
+| -------------- | --------------- | ------------------------ | ----------- | ------------------ |
+| HashSet        | No order        | Hash table               | ❌           | Fast lookup        |
+| LinkedHashSet  | Insertion order | Hash table + linked list | ❌           | Order + uniqueness |
+| TreeSet        | Sorted          | Red-Black Tree           | ❌           | Sorted data        |
+
+4. HashSet (🔥 Most Used)
+Example
+  import java.util.*;
+  
+  public class Test {
+      public static void main(String[] args) {
+          Set<String> set = new HashSet<>();
+          set.add("Java");
+          set.add("Spring");
+          set.add("Java");
+  
+          System.out.println(set);
+      }
+  }
+  
+  Output (order not guaranteed)
+  [Java, Spring]
+
+Key Points:
+Duplicate ignored
+O(1) average for add/remove/search
+Allows one null
+
+5. LinkedHashSet (Insertion Order Preserved)
+Example
+  import java.util.*;
+  
+  public class Test {
+      public static void main(String[] args) {
+          Set<Integer> set = new LinkedHashSet<>();
+          set.add(30);
+          set.add(10);
+          set.add(20);
+          set.add(10);
+  
+          System.out.println(set);
+      }
+  }
+  
+  Output
+  [30, 10, 20]
+
+6. TreeSet (Sorted Set)
+Example
+  import java.util.*;
+  
+  public class Test {
+      public static void main(String[] args) {
+          Set<Integer> set = new TreeSet<>();
+          set.add(30);
+          set.add(10);
+          set.add(20);
+  
+          System.out.println(set);
+      }
+  }
+  
+  Output
+  [10, 20, 30]
+
+Key Points:
+Sorted in natural order
+❌ Does not allow null
+O(log n) operations
+
+7. Important Set Methods (🔥 Interview-Critical)
+  set.add("A");
+  set.remove("A");
+  set.contains("A");
+  set.size();
+  set.isEmpty();
+  set.clear();
+
+8. Iterating Over a Set:-
+  Enhanced for-loop:
+    for (String s : set) {
+        System.out.println(s);
+    }
+  
+  Iterator:
+    Iterator<String> itr = set.iterator();
+    while (itr.hasNext()) {
+        System.out.println(itr.next());
+    }
+
+9. Remove While Iterating (Tricky 🔥)
+  ❌ Wrong
+  for (String s : set) {
+      set.remove(s); // ConcurrentModificationException
+  }
+  
+  ✔ Correct
+  Iterator<String> itr = set.iterator();
+  while (itr.hasNext()) {
+      itr.next();
+      itr.remove();
+  }
+
+  10. set vs list
+| Feature    | Set        | List         |
+| ---------- | ---------- | ------------ |
+| Duplicates | ❌         | ✅            |
+| Order      | Depends    | Yes          |
+| Index      | ❌         | ✅            |
+| Use case   | Uniqueness | Ordered data |
+
+11. HashSet Internal Working (🔥 4+ Years Topic)
+Uses HashMap internally
+Elements stored as keys
+
+Uses:
+hashCode()
+equals()
+
+👉 If both match, element is considered duplicate.
+
+12. Custom Object in HashSet (🔥 VERY IMPORTANT)
+Employee Class
+class Employee {
+    int id;
+    String name;
+
+    Employee(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        Employee e = (Employee) obj;
+        return this.id == e.id;
+    }
+}
+
+Test Class
+import java.util.*;
+
+public class Test {
+    public static void main(String[] args) {
+        Set<Employee> set = new HashSet<>();
+
+        set.add(new Employee(1, "Sai"));
+        set.add(new Employee(1, "Sai"));
+        set.add(new Employee(2, "Ram"));
+
+        System.out.println(set.size());
+    }
+}
+
+Output
+2
+👉 Without overriding equals() & hashCode(), duplicates will not be removed ❗
+
+
+14. TreeSet with Comparator
+  Set<Employee> set = new TreeSet<>(
+      (e1, e2) -> e2.id - e1.id
+  );
+
+👉 Used when:
+You cannot modify class
+Multiple sorting strategies needed
+
+15. Immutable Set (Java 9+):
+  Set<String> set = Set.of("A", "B", "C");
+  // set.add("D"); ❌
+  
+  ✔ Immutable
+  ✔ Thread-safe
+  ✔ No nulls
+
+16. Thread-Safe Set Options
+1. Collections.synchronizedSet
+  Set<String> set =
+      Collections.synchronizedSet(new HashSet<>());
+
+2. Concurrent Set (Best 🔥)
+  Set<String> set =
+      ConcurrentHashMap.newKeySet();
+
+17. Set with Streams (Modern Java)
+  set.stream()
+     .filter(s -> s.startsWith("J"))
+     .forEach(System.out::println);
+
+18. Set in Spring Boot (Real-World Use)
+  DTO
+  class UserDTO {
+      private Set<String> roles;
+  }
+  
+  JPA Entity
+  @ManyToMany
+  private Set<Role> roles;
+  👉 Set prevents duplicate relations
+
+19. Performance Complexity (Interview Expected)
+| Operation | HashSet | LinkedHashSet | TreeSet  |
+| --------- | ------- | ------------- | -------- |
+| add       | O(1)    | O(1)          | O(log n) |
+| remove    | O(1)    | O(1)          | O(log n) |
+| search    | O(1)    | O(1)          | O(log n) |
+
+
+20. Common Tricky Interview Questions
+Q1. Why TreeSet doesn’t allow null?
+
+Because it uses comparison (NPE risk)
+
+Q2. What happens if hashCode is same but equals is false?
+Stored in same bucket but treated as different objects
+
+Q3. Which Set is fastest?
+HashSet
+
+Q4. When to use LinkedHashSet?
+When order + uniqueness is required
+
+Q5. How to remove duplicates from List?
+List<String> list = List.of("A", "B", "A");
+Set<String> set = new HashSet<>(list);
+
