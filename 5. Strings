@@ -80,7 +80,7 @@ equals() → content comparison
 StringBuilder is a mutable sequence of characters.
 
 Key Characteristics:
-Mutable
+Mutable((can be changed)
 Not thread-safe
 Faster than StringBuffer
 Introduced in Java 5
