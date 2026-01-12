@@ -1,0 +1,217 @@
+3. Core Concepts of OOPS (🔥 MUST KNOW)
+Class
+Object
+Encapsulation
+Inheritance
+Polymorphism
+Abstraction
+
+4. Class & Object (Foundation)
+Class:
+A blueprint that defines the object properties and methods.
+
+class Car {
+    String model;
+    void drive() {
+        System.out.println("Car is driving");
+    }
+}
+
+Object:
+Any entity that has state and behavior is known as an object. A runtime instance of a class.
+
+public class Test {
+    public static void main(String[] args) {
+        Car c = new Car();
+        c.drive();
+    }
+}
+
+Output
+Car is driving
+
+5. Encapsulation (Data Hiding)
+Definition
+Encapsulation binds data and methods together and restricts direct access using access modifiers.
+
+Interview one-liner
+“Encapsulation hides internal state and exposes controlled access.”
+
+Example
+class Person {
+    private int age;
+
+    public void setAge(int age) {
+        if (age > 0) this.age = age;
+    }
+
+    public int getAge() {
+        return age;
+    }
+}
+
+public class Test {
+    public static void main(String[] args) {
+        Person p = new Person();
+        p.setAge(25);
+        System.out.println(p.getAge());
+    }
+}
+
+Output
+25
+
+✔ Achieved using private + getters/setters
+✔ Improves security and maintainability
+
+6. Inheritance (IS-A Relationship)
+Definition
+Inheritance allows one class to acquire properties and behavior of another class.
+
+Interview one-liner
+“Inheritance promotes code reusability using IS-A relationship.”
+
+Example
+class Vehicle {
+    void start() {
+        System.out.println("Vehicle started");
+    }
+}
+
+class Car extends Vehicle {}
+
+public class Test {
+    public static void main(String[] args) {
+        Car c = new Car();
+        c.start();
+    }
+}
+
+
+Output
+Vehicle started
+
+Types of Inheritance in Java
+
+Single ✔
+Multilevel ✔
+Hierarchical ✔
+Multiple ❌ (via class)
+Multiple ✔ (via interface)
+
+7. Polymorphism (Many Forms)
+Definition
+Polymorphism allows a method to behave differently based on object type.
+
+Interview one-liner
+“Polymorphism allows one interface, multiple implementations.”
+
+7.1 Compile-Time Polymorphism (Method Overloading)
+class Calculator {
+    int add(int a, int b) { return a + b; }
+    double add(double a, double b) { return a + b; }
+}
+
+public class Test {
+    public static void main(String[] args) {
+        Calculator c = new Calculator();
+        System.out.println(c.add(10, 20));
+        System.out.println(c.add(10.5, 20.5));
+    }
+}
+
+Output
+30
+31.0
+
+✔ Same method name
+✔ Different parameters
+
+7.2 Runtime Polymorphism (Method Overriding)
+class Parent {
+    void show() {
+        System.out.println("Parent");
+    }
+}
+
+class Child extends Parent {
+    @Override
+    void show() {
+        System.out.println("Child");
+    }
+}
+
+public class Test {
+    public static void main(String[] args) {
+        Parent p = new Child();
+        p.show();
+    }
+}
+
+Output
+Child
+
+
+✔ Achieved via inheritance
+✔ Decided at runtime
+
+8. Abstraction (Hiding Implementation)
+Definition
+Abstraction shows what to do, not how to do.
+
+Interview one-liner
+“Abstraction exposes behavior while hiding implementation.”
+
+Using Abstract Class
+abstract class Vehicle {
+    abstract void start();
+}
+
+class Bike extends Vehicle {
+    void start() {
+        System.out.println("Bike started");
+    }
+}
+
+public class Test {
+    public static void main(String[] args) {
+        Vehicle v = new Bike();
+        v.start();
+    }
+}
+
+
+Output
+Bike started
+
+Using Interface:
+interface Payment {
+    void pay();
+}
+
+class CardPayment implements Payment {
+    public void pay() {
+        System.out.println("Payment via Card");
+    }
+}
+
+public class Test {
+    public static void main(String[] args) {
+        Payment p = new CardPayment();
+        p.pay();
+    }
+}
+
+
+Output
+Payment via Card
+
+9. Interface vs Abstract Class (🔥 Interview Table)
+| Feature              | Interface           | Abstract Class      |
+| -------------------- | ------------------- | ------------------- |
+| Methods              | Abstract + default  | Abstract + concrete |
+| Multiple inheritance | ✔                   | ❌                   |
+| Variables            | public static final | Any                 |
+| Constructor          | ❌                   | ✔                   |
+
+
