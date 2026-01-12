@@ -1,0 +1,186 @@
+1. Big Picture (One-Line Summary)
+
+JDK → tools to develop Java programs
+JRE → environment to run Java programs
+JVM → engine that executes Java bytecode
+
+2. Java Architecture Overview
+
+Java Source Code (.java)
+        ↓  (javac)
+Bytecode (.class)
+        ↓
+       JVM
+   ┌───────────┐
+   │ ClassLoader│
+   │ Runtime    │
+   │ JIT        │
+   │ GC         │
+   └───────────┘
+        ↓
+   OS / Hardware
+
+3. JDK (Java Development Kit)
+What is JDK?
+
+The JDK is a software development kit used to develop, compile, debug, and run Java applications.
+
+JDK Contains:
+JRE
+Compiler (javac)
+Debugger (jdb)
+Archiver (jar)
+Documentation tool (javadoc)
+Monitoring tools (jconsole, jvisualvm)
+
+Example
+javac Hello.java
+java Hello
+
+Interview One-liner
+“JDK is required to develop Java applications.”
+
+4. JRE (Java Runtime Environment)
+What is JRE?
+The JRE provides the runtime environment required to run Java applications.
+
+JRE Contains:
+JVM
+Core Java libraries (java.lang, java.util, etc.)
+
+❌ Does not contain compiler
+❌ Cannot develop Java code
+
+Interview One-liner
+“JRE is used to run Java applications, not to develop them.”
+
+5. JVM (Java Virtual Machine) – 🔥 Most Important
+What is JVM?
+
+The JVM is a virtual machine that:
+Loads bytecode
+Verifies bytecode
+Executes bytecode
+Manages memory & garbage collection
+
+Key Feature:
+✔ Platform independent execution
+Java is compiled to bytecode (platform-independent)
+JVM is platform-dependent
+
+6. JVM Internal Architecture (🔥 Must Know)
+  6.1 Class Loader Subsystem
+  Loads .class files into memory.
+  
+  Types of Class Loaders:-
+  Bootstrap ClassLoader:
+  Loads core classes (java.lang)
+  
+  Extension ClassLoader:
+  Loads extension libraries
+  
+  Application ClassLoader:
+  Loads application classes
+
+  6.2 Runtime Data Areas
+  1️⃣ Method Area (MetaSpace)
+  Class metadata
+  Static variables
+  Method bytecode
+  
+  2️⃣ Heap
+  Objects & instance variables
+  Shared across threads
+  
+  3️⃣ Stack (per thread)
+  Method calls
+  Local variables
+  Frames
+  
+  4️⃣ PC Register
+  Current executing instruction
+  
+  5️⃣ Native Method Stack
+  For native (C/C++) calls
+
+  6.3 Execution Engine
+  Responsible for executing bytecode.
+  
+  Components:
+  Interpreter
+  JIT Compiler
+  Garbage Collector
+
+7. Interpreter vs JIT Compiler (🔥 Interview Favorite)
+| Interpreter            | JIT Compiler                     |
+| ---------------------- | -------------------------------- |
+| Line-by-line execution | Compiles bytecode to native code |
+| Slower                 | Faster                           |
+| No optimization        | Highly optimized                 |
+| Default initially      | Used for hot code                |
+✔ JVM uses both
+
+8. Garbage Collector (GC)
+Role:
+Automatically removes unused objects
+Prevents memory leaks
+
+Key Points:
+Works on heap
+Uses reachability analysis
+Types: Serial, Parallel, G1, ZGC (advanced)
+
+Interview One-liner
+“GC automatically manages heap memory.”
+
+9. Java Program Execution Flow (🔥)
+Write Java code (.java)
+Compile → bytecode (.class)
+ClassLoader loads class
+Bytecode verifier checks safety
+Execution engine executes
+Output produced
+
+10. JDK vs JRE vs JVM (🔥 Very Common Table)
+| Feature            | JDK     | JRE | JVM     |
+| ------------------ | ------- | --- | ------- |
+| Purpose            | Develop | Run | Execute |
+| Contains JVM       | ✅       | ✅   | —       |
+| Contains compiler  | ✅       | ❌   | ❌       |
+| Platform dependent | ❌       | ❌   | ✅       |
+| Used by developer  | ✅       | ❌   | ❌       |
+
+11. Why Java is Platform Independent?
+
+✔ Bytecode is platform independent
+✔ JVM converts bytecode to native code
+
+“Write Once, Run Anywhere”
+
+12. JVM Languages (Advanced)
+JVM supports multiple languages:
+Java
+Kotlin
+Scala
+Groovy
+
+All compile to bytecode.
+
+Q1. Is JVM platform independent?
+❌ No (JVM is platform dependent)
+
+Q2. Is Java fully platform independent?
+✅ Yes (because of bytecode + JVM)
+
+Q3. Can we run Java program without JRE?
+❌ No
+
+Q4. Can we compile without JDK?
+❌ No
+
+15. Interview One-Liners (Use These)
+“JDK is for development, JRE is for runtime.”
+“JVM executes bytecode.”
+“Bytecode enables platform independence.”
+“JIT improves performance.”
+“GC manages heap memory automatically.”
