@@ -45,7 +45,8 @@ String s3 = new String("Java");
 | `s1 == s2`      | true   |
 | `s1 == s3`      | false  |
 | `s1.equals(s3)` | true   |
-
+== → reference comparison
+equals() → content comparison
 👉 SCP avoids duplicate objects → memory optimization
 
 4. Important String Methods (🔥 Interview-Critical)
