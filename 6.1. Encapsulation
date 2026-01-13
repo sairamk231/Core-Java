@@ -1,7 +1,10 @@
 Encapsulation:
 --------------
 
-It is the mechanism of wrapping data(variables) and methods(code) together into a single unit. It restricts direct access to some of an objects components. This is achieved by providing private to the data and public getter and setter methods.Encapsulation is about restricting access from OUTSIDE the class, not inside the class.
+It is the mechanism of wrapping data(variables) and methods(code) together into a single unit. 
+It restricts direct access to some of an objects components. 
+This is achieved by providing private to the data and public getter and setter methods.
+Encapsulation is about restricting access from OUTSIDE the class, not inside the class.
 
 Why Encapsulation is Important (Interview Keywords)
 
@@ -184,6 +187,7 @@ Generates controlled access methods
 “Data protection through controlled access.”
 
 17. Interview Closing Statement (Use This)
-“Encapsulation ensures object integrity by hiding internal state and exposing only validated operations, which is critical for secure and maintainable Spring Boot applications.”
+“Encapsulation ensures object integrity by hiding internal state and exposing only validated operations, 
+   which is critical for secure and maintainable Spring Boot applications.”
 
 
