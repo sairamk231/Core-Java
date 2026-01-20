@@ -1,3 +1,11 @@
+
+| Modifier  | Same Class | Same Package | Subclass (diff pkg) | Outside |
+| --------- | ---------- | ------------ | ------------------- | ------- |
+| public    | ✔          | ✔            | ✔                   | ✔       |
+| protected | ✔          | ✔            | ✔                   | ❌       |
+| default   | ✔          | ✔            | ❌                   | ❌       |
+| private   | ✔          | ❌            | ❌                   | ❌       |
+
 1. Class & Object
 Definition
 Class:
