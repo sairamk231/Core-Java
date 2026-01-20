@@ -1,0 +1,239 @@
+1. Class & Object
+Definition
+Class:
+A blueprint or template that defines properties (variables) and behaviors (methods).
+Logical entity.
+
+Object:
+A real-time instance of a class.
+Physical entity.
+
+class Car {
+    String brand;
+    void drive() {
+        System.out.println("Driving");
+    }
+}
+
+Car car = new Car();
+
+Interview Questions
+
+Q1. What is the difference between class and object?
+👉 Class is a blueprint; object is an instance of that blueprint.
+
+Q2. Can a class exist without object?
+👉 Yes.
+
+Q3. Can an object exist without class?
+👉 No.
+
+Tricky Questions
+How many objects are created when a class is loaded? → Zero
+Where does object live in memory? → Heap
+Where does class metadata live? → Metaspace (Java 8+)
+
+2. Encapsulation
+Definition
+Wrapping data and methods together into a single unit.
+Achieved using private variables + public methods.
+
+class Person {
+    private int age;
+
+    public void setAge(int age) {
+        if (age > 0)
+            this.age = age;
+    }
+
+    public int getAge() {
+        return age;
+    }
+}
+
+Interview Questions
+
+Q1. What is encapsulation?
+👉 Data hiding + controlled access.
+
+Q2. Why encapsulation is important?
+👉 Security, validation, maintainability.
+
+Tricky Questions
+
+Is encapsulation only data hiding? → No
+Can we achieve encapsulation without getters/setters? → Yes (immutable class)
+
+3. Inheritance
+Definition
+A mechanism where one class acquires properties and behavior of another class.
+Achieved using extends.
+
+Types of Inheritance
+Single Inheritance
+class A {}
+class B extends A {}
+
+Multilevel Inheritance
+class A {}
+class B extends A {}
+class C extends B {}
+
+Hierarchical Inheritance
+class A {}
+class B extends A {}
+class C extends A {}
+
+❌ Java does not support multiple inheritance using classes.
+
+Interview Questions
+
+Q1. Why Java doesn’t support multiple inheritance?
+👉 Ambiguity problem (diamond problem).
+
+Q2. Are constructors inherited?
+👉 No.
+
+Tricky Questions
+
+Are private members inherited? → Yes, but not accessible
+Can final class be inherited? → No
+Can inheritance increase coupling? → Yes
+
+4. Polymorphism
+Definition
+One method, many forms.
+Allows behavior to change at runtime.
+
+Method Overloading (Compile-Time Polymorphism)
+Same method name
+Different parameter list
+
+int add(int a, int b) {}
+double add(double a, double b) {}
+
+Interview Questions
+
+Q. Can we overload static methods?
+👉 Yes.
+
+Tricky Questions
+Can overloading happen by return type only? → No
+Does method overloading depend on access modifiers? → No
+
+Method Overriding (Runtime Polymorphism)
+Same method signature
+Child class implementation
+
+class Parent {
+    void show() {}
+}
+
+class Child extends Parent {
+    void show() {}
+}
+
+Interview Questions
+Q. What is runtime polymorphism?
+👉 Method call resolved at runtime using object reference.
+
+Tricky Questions:
+Can static methods be overridden? → No
+Can private methods be overridden? → No
+Can we reduce visibility while overriding? → No
+
+5. Abstraction
+Definition
+Hiding implementation details and showing only essential features.
+
+Abstract Class
+abstract class Vehicle {
+    abstract void start();
+}
+
+✔ Can have variables
+✔ Can have constructors
+✔ Partial abstraction
+
+Interface
+interface Payment {
+    void pay();
+}
+
+✔ Supports multiple inheritance
+✔ Java 8 → default & static methods
+✔ Complete abstraction (Java 7)
+
+Abstract Class vs Interface (Very Important)
+| Abstract Class       | Interface            |
+| -------------------- | -------------------- |
+| Partial abstraction  | Full abstraction     |
+| Can have constructor | Cannot               |
+| Single inheritance   | Multiple inheritance |
+
+Tricky Questions
+Can abstract class have constructor? → Yes
+Can interface have variables? → Yes (public static final)
+
+6. Association, Aggregation, Composition
+Association
+General relationship between classes.
+
+class Student {
+    Teacher teacher;
+}
+
+Aggregation (Weak HAS-A):
+Objects can exist independently.
+
+Composition (Strong HAS-A):
+Child object cannot exist without parent.
+
+class Engine {}
+class Car {
+    Engine engine = new Engine();
+}
+
+Tricky Questions
+Difference between aggregation & composition?
+👉 Object lifecycle dependency
+
+7. this Keyword
+Definition:
+Refers to current object.
+this.age = age;
+
+Uses:
+Resolving variable shadowing
+Calling constructor (this())
+
+Tricky Questions:
+Can this be used in static context? → No
+Can this() and super() be used together? → No
+
+8. super Keyword
+Definition:
+Refers to parent class object.
+
+Uses:
+Access parent methods
+Call parent constructor
+super();
+
+Tricky Questions
+Is super() implicit? → Yes
+Can we access private members using super? → No
+
+9. instanceof
+Definition:
+
+Used to check object type at runtime.
+if(obj instanceof Employee)
+
+Interview Questions
+Q. When is instanceof used?
+👉 Safe type casting.
+
+Tricky Questions
+Can instanceof be used with interfaces? → Yes
+Does instanceof work with null? → Always false
