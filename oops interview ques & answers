@@ -5,7 +5,7 @@
 | protected | ✔          | ✔            | ✔                   | ❌       |
 | default   | ✔          | ✔            | ❌                   | ❌       |
 | private   | ✔          | ❌            | ❌                   | ❌       |
-
+----------------------------------------------------------------------------------------------------------------
 1. Class & Object
 Definition
 Class:
@@ -40,7 +40,7 @@ Tricky Questions
 How many objects are created when a class is loaded? → Zero
 Where does object live in memory? → Heap
 Where does class metadata live? → Metaspace (Java 8+)
-
+----------------------------------------------------------------------------------------------------------------------------
 2. Encapsulation
 Definition
 Wrapping data and methods together into a single unit.
@@ -71,7 +71,7 @@ Tricky Questions
 
 Is encapsulation only data hiding? → No
 Can we achieve encapsulation without getters/setters? → Yes (immutable class)
-
+--------------------------------------------------------------------------------------------------------------------------
 3. Inheritance
 Definition
 A mechanism where one class acquires properties and behavior of another class.
@@ -107,39 +107,39 @@ Tricky Questions
 Are private members inherited? → Yes, but not accessible
 Can final class be inherited? → No
 Can inheritance increase coupling? → Yes
-
+---------------------------------------------------------------------------------------------------------------------------------------
 4. Polymorphism
 Definition
 One method, many forms.
 Allows behavior to change at runtime.
 
-Method Overloading (Compile-Time Polymorphism)
-Same method name
-Different parameter list
+Method Overloading (Compile-Time Polymorphism):-
+    Same method name
+    Different parameter list
+    
+    int add(int a, int b) {}
+    double add(double a, double b) {}
+    
+    Interview Questions
+    
+    Q. Can we overload static methods?
+    👉 Yes.
+    
+    Tricky Questions
+    Can overloading happen by return type only? → No
+    Does method overloading depend on access modifiers? → No
 
-int add(int a, int b) {}
-double add(double a, double b) {}
-
-Interview Questions
-
-Q. Can we overload static methods?
-👉 Yes.
-
-Tricky Questions
-Can overloading happen by return type only? → No
-Does method overloading depend on access modifiers? → No
-
-Method Overriding (Runtime Polymorphism)
-Same method signature
-Child class implementation
-
-class Parent {
-    void show() {}
-}
-
-class Child extends Parent {
-    void show() {}
-}
+Method Overriding (Runtime Polymorphism):-
+    Same method signature
+    Child class implementation
+    
+    class Parent {
+        void show() {}
+    }
+    
+    class Child extends Parent {
+        void show() {}
+    }
 
 Interview Questions
 Q. What is runtime polymorphism?
@@ -149,7 +149,7 @@ Tricky Questions:
 Can static methods be overridden? → No
 Can private methods be overridden? → No
 Can we reduce visibility while overriding? → No
-
+----------------------------------------------------------------------------------------------
 5. Abstraction
 Definition
 Hiding implementation details and showing only essential features.
@@ -182,7 +182,7 @@ Abstract Class vs Interface (Very Important)
 Tricky Questions
 Can abstract class have constructor? → Yes
 Can interface have variables? → Yes (public static final)
-
+-------------------------------------------------------------------------------------------------
 6. Association, Aggregation, Composition
 Association
 General relationship between classes.
@@ -205,7 +205,7 @@ class Car {
 Tricky Questions
 Difference between aggregation & composition?
 👉 Object lifecycle dependency
-
+-------------------------------------------------------------------------------------
 7. this Keyword
 Definition:
 Refers to current object.
@@ -218,7 +218,7 @@ Calling constructor (this())
 Tricky Questions:
 Can this be used in static context? → No
 Can this() and super() be used together? → No
-
+---------------------------------------------------------------------------------------
 8. super Keyword
 Definition:
 Refers to parent class object.
@@ -231,7 +231,7 @@ super();
 Tricky Questions
 Is super() implicit? → Yes
 Can we access private members using super? → No
-
+-------------------------------------------------------------------------------------------
 9. instanceof
 Definition:
 
