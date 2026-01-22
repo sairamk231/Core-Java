@@ -1,0 +1,189 @@
+RegEx is a pattern-matching language used for string validation and manipulation.”
+
+2. Why RegEx in Java?
+Input validation (email, phone, password)
+Search & replace
+Data extraction (logs, files)
+Request validation in Spring Boot
+
+3. RegEx Support in Java (Core Classes)
+Java provides RegEx via java.util.regex package
+| Class                    | Purpose                    |
+| ------------------------ | -------------------------- |
+| `Pattern`                | Compiled regex             |
+| `Matcher`                | Matches pattern with input |
+| `PatternSyntaxException` | Invalid regex              |
+
+4. Basic Flow (🔥 MUST KNOW)
+Pattern p = Pattern.compile("regex");
+Matcher m = p.matcher("input");
+while (m.find()) {
+    System.out.println(m.group());
+}
+
+5. Simple RegEx Example
+import java.util.regex.*;
+public class Test {
+    public static void main(String[] args) {
+        Pattern p = Pattern.compile("Java");
+        Matcher m = p.matcher("Java is Java");
+
+        while (m.find()) {
+            System.out.println(m.group());
+        }
+    }
+}
+
+Output
+Java
+Java
+
+6. Character Classes
+| Pattern  | Meaning           |
+| -------- | ----------------- |
+| `[abc]`  | a or b or c       |
+| `[^abc]` | not a, b, c       |
+| `[a-z]`  | lowercase letters |
+| `[A-Z]`  | uppercase letters |
+| `[0-9]`  | digits            |
+
+System.out.println("a9".matches("[a-z][0-9]"));
+Output
+true
+ 
+7. Predefined Character Classes
+| Pattern  | Meaning           |
+| -------- | ----------------- |
+| `[abc]`  | a or b or c       |
+| `[^abc]` | not a, b, c       |
+| `[a-z]`  | lowercase letters |
+| `[A-Z]`  | uppercase letters |
+| `[0-9]`  | digits            |
+
+⚠️ In Java strings, use double backslash (\\d).
+
+System.out.println("9".matches("\\d"));
+
+Output
+true
+
+8. Quantifiers (🔥 Interview Favorite)
+| Quantifier | Meaning   |
+| ---------- | --------- |
+| `?`        | 0 or 1    |
+| `*`        | 0 or more |
+| `+`        | 1 or more |
+| `{n}`      | exactly n |
+| `{n,}`     | n or more |
+| `{n,m}`    | n to m    |
+
+Example
+System.out.println("aaa".matches("a+"));
+
+Output
+true
+
+9. Anchors (Position Matching)
+| Anchor | Meaning         |
+| ------ | --------------- |
+| `^`    | start of string |
+| `$`    | end of string   |
+| `\b`   | word boundary   |
+
+System.out.println("Java".matches("^Java$"));
+
+Output
+true
+
+10. Grouping & Alternation
+Grouping ( )
+System.out.println("cat".matches("(cat|dog)"));
+
+Output
+true
+
+11. Matcher Methods (🔥 VERY IMPORTANT)
+| Method      | Purpose          |
+| ----------- | ---------------- |
+| `find()`    | finds next match |
+| `matches()` | full match       |
+| `group()`   | matched value    |
+| `start()`   | start index      |
+| `end()`     | end index        |
+
+
+Example
+Pattern p = Pattern.compile("\\d+");
+Matcher m = p.matcher("Order 123 and 456");
+
+while (m.find()) {
+    System.out.println(m.group());
+}
+Output
+123
+456
+
+12. matches() vs find() (🔥 Tricky)
+"123abc".matches("\\d+"); // false
+✔ matches() → full string match
+✔ find() → partial match
+
+13. String Class RegEx Methods
+Java String has built-in RegEx support.
+
+13.1 matches()
+System.out.println("abc123".matches("[a-z]+\\d+"));
+Output
+true
+
+13.2 replaceAll()
+System.out.println("a1b2c3".replaceAll("\\d", ""));
+Output
+abc
+
+13.3 split()
+String[] arr = "Java,Spring,Boot".split(",");
+for (String s : arr) {
+    System.out.println(s);
+}
+Output
+Java
+Spring
+Boot
+
+14. Common Validation Examples (🔥 MUST PREPARE)
+14.1 Email Validation
+String email = "test@gmail.com";
+System.out.println(email.matches("^[A-Za-z0-9+_.-]+@(.+)$"));
+
+Output
+true
+
+14.2 Mobile Number (India)
+System.out.println("9876543210".matches("[6-9][0-9]{9}"));
+
+Output
+true
+
+14.3 Password Validation
+At least 1 digit, 1 uppercase, 8 chars:
+System.out.println("Abc@1234".matches("(?=.*\\d)(?=.*[A-Z]).{8,}"));
+
+Output
+true
+
+20. Common Interview Questions (4+ Years)
+
+Q1. matches() vs find()?
+matches → full match
+find → partial
+
+Q2. Why double slash in Java RegEx?
+Escape sequence for string literal
+
+Q3. Best way to validate input?
+Anchored regex (^ and $)
+
+Q4. Is RegEx thread-safe?
+Pattern → yes
+Matcher → no
