@@ -1,0 +1,332 @@
+ String
+Definition
+String is an immutable class in Java used to represent a sequence of characters.
+
+Key Points
+Immutable → cannot be changed
+Stored in String Constant Pool (SCP)
+Thread-safe (because immutable)
+
+Example
+String s = "Java";
+s.concat(" World");
+System.out.println(s);
+
+Output
+Java
+
+🔹 StringBuilder
+Definition
+
+StringBuilder is a mutable, non-thread-safe class used to create dynamic strings.
+
+Key Points
+Faster than StringBuffer
+Introduced in Java 5
+Not synchronized
+
+Example
+StringBuilder sb = new StringBuilder("Java");
+sb.append(" World");
+System.out.println(sb);
+
+Output
+Java World
+
+🔹 StringBuffer
+Definition
+StringBuffer is a mutable, thread-safe class used for string manipulation.
+
+Key Points
+Synchronized
+Slower than StringBuilder
+Used in multithreaded environments
+
+Example
+StringBuffer sb = new StringBuffer("Java");
+sb.append(" World");
+System.out.println(sb);
+
+Output
+Java World
+
+🔹 String vs StringBuilder vs StringBuffer
+| Feature     | String      | StringBuilder | StringBuffer |
+| ----------- | ----------- | ------------- | ------------ |
+| Mutability  | ❌ Immutable | ✅ Mutable     | ✅ Mutable    |
+| Thread-safe | ✅           | ❌             | ✅            |
+| Performance | Slow        | Fastest       | Slow         |
+| Introduced  | Java 1.0    | Java 5        | Java 1.0     |
+
+  Q1. Why String is immutable?
+
+A: For security, caching, thread safety, and memory optimization.
+
+Q2. Difference between == and equals() in String?
+A:
+== compares references
+equals() compares content
+
+🔥 Tricky Question
+String s1 = "Java";
+String s2 = new String("Java");
+System.out.println(s1 == s2);
+
+Output: false
+----------------------------------------------------------------------------------------------------------------------------------------
+  
+🔹 What is Exception Handling?
+
+Exception Handling is a mechanism to handle runtime errors so that the normal flow of the program is not disrupted.
+
+An Exception is an unwanted or unexpected event that occurs during program execution.
+
+🔹 Exception Hierarchy
+Object
+ └── Throwable
+      ├── Error
+      │     └── OutOfMemoryError, StackOverflowError
+      └── Exception
+            ├── Checked Exceptions
+            │     └── IOException, SQLException
+            └── RuntimeException
+                  └── NullPointerException, ArithmeticException
+
+Error
+Serious problems
+Not recoverable
+Not handled by developers
+
+Exception
+Recoverable
+Handled using try-catch
+
+🔹 Checked vs Unchecked Exceptions
+| Feature                 | Checked             | Unchecked                  |
+| ----------------------- | ------------------- | -------------------------- |
+| Checked at compile time | ✅                   | ❌                          |
+| Must be handled         | ✅                   | ❌                          |
+| Package                 | java.lang.Exception | java.lang.RuntimeException |
+| Example                 | IOException         | NullPointerException       |
+
+  Example
+// Checked Exception
+FileReader fr = new FileReader("file.txt"); // Compile-time error
+
+// Unchecked Exception
+int a = 10 / 0; // ArithmeticException
+
+🔹 try-catch-finally
+Definition
+
+try → risky code
+
+catch → handles exception
+
+finally → executes always (cleanup)
+
+Example
+try {
+    int a = 10 / 0;
+} catch (ArithmeticException e) {
+    System.out.println("Exception caught");
+} finally {
+    System.out.println("Finally block");
+}
+
+Output
+Exception caught
+Finally block
+
+🔹 throw vs throws
+| throw                              | throws                    |
+| ---------------------------------- | ------------------------- |
+| Used to explicitly throw exception | Used to declare exception |
+| Inside method                      | Method signature          |
+| Throws single exception            | Can declare multiple      |
+  
+Example
+void validate(int age) {
+    if(age < 18)
+        throw new ArithmeticException("Not eligible");
+}
+
+void readFile() throws IOException {
+    FileReader fr = new FileReader("file.txt");
+}
+
+🔹 Custom Exceptions
+Definition
+
+User-defined exceptions created by extending Exception or RuntimeException.
+
+Example
+class InvalidAgeException extends Exception {
+    InvalidAgeException(String msg) {
+        super(msg);
+    }
+}
+
+class Test {
+    static void validate(int age) throws InvalidAgeException {
+        if(age < 18)
+            throw new InvalidAgeException("Age below 18");
+    }
+}
+
+🔹 try-with-resources (Java 7+)
+Definition
+
+Automatically closes resources that implement AutoCloseable.
+
+Example
+try (FileReader fr = new FileReader("file.txt")) {
+    System.out.println("Reading file");
+}
+
+✔ No need for finally
+✔ Prevents memory leaks
+ 
+-------------------------------------------------------------------------------------------------------------------------------------
+2️⃣ this Keyword
+🔹 Definition
+
+this refers to the current object instance.
+
+Uses
+Resolve instance vs local variable conflict
+Invoke current class constructor
+Pass current object as parameter
+
+Example
+class Test {
+    int x;
+    Test(int x) {
+        this.x = x;
+    }
+}
+
+🎯 Interview Q&A (this)
+Q1. Can we use this() and super() together?
+
+A: ❌ No, both must be the first statement.
+
+🔥 Tricky Question
+
+Q: Can we use this in static method?
+A: ❌ No, static belongs to class.
+
+3️⃣ super Keyword
+🔹 Definition
+
+super refers to the parent class object.
+
+Uses
+Access parent variables
+Call parent methods
+Invoke parent constructor
+
+Example
+class A {
+    int x = 10;
+}
+
+class B extends A {
+    int x = 20;
+    void show() {
+        System.out.println(super.x);
+    }
+}
+
+Output
+10
+
+🎯 Interview Q&A (super)
+Q1. Is super mandatory in constructor?
+
+A: ❌ No, compiler adds it automatically.
+
+🔥 Tricky Question
+
+Q: Can super() be called explicitly?
+A: ✅ Yes, but must be first statement.
+
+4️⃣ private Keyword
+🔹 Definition
+
+private restricts access within the same class only.
+
+Example
+class Test {
+    private int x = 10;
+}
+
+🎯 Interview Q&A (private)
+Q1. Can private method be overridden?
+
+A: ❌ No (not visible to child).
+
+🔥 Tricky Question
+
+Q: Can constructor be private?
+A: ✅ Yes (Singleton pattern).
+
+5️⃣ static Keyword
+🔹 Definition
+
+static belongs to class, not object.
+
+Used For
+Static variables
+Static methods
+Static blocks
+Static nested classes
+
+Example
+class Test {
+    static int x = 10;
+}
+
+🎯 Interview Q&A (static)
+Q1. Why main method is static?
+
+A: JVM calls it without creating object.
+
+🔥 Tricky Question
+static {
+    System.out.println("Static Block");
+}
+
+
+Executes before main
+
+6️⃣ Constructors
+🔹 Definition
+Constructor is a special method used to initialize objects.
+
+Types
+Default Constructor
+Parameterized Constructor
+Copy Constructor (user-defined)
+
+Example
+class Test {
+    Test() {
+        System.out.println("Constructor called");
+    }
+}
+
+🎯 Interview Q&A (Constructors)
+Q1. Can constructor be static?
+A: ❌ No
+
+Q2. Can constructor be final?
+A: ❌ No
+
+🔥 Tricky Questions
+
+Q: Can constructor throw exception?
+A: ✅ Yes
+
+Q: Can constructor be inherited?
+A: ❌ No
