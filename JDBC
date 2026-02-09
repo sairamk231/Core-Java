@@ -1,0 +1,231 @@
+Definition:
+JDBC (Java Database Connectivity) is a standard Java API that allows Java applications to connect to relational databases, execute SQL queries, and process results.
+
+Why JDBC?:
+Database-independent API
+Direct SQL execution
+
+Foundation for:
+Spring JDBC
+Hibernate / JPA
+MyBatis
+
+JDBC Architecture:
+Java Application
+JDBC API
+JDBC Driver
+
+Database
+JDBC Driver Types:
+| Type   | Description                      |
+| ------ | -------------------------------- |
+| Type 1 | JDBC-ODBC bridge (deprecated)    |
+| Type 2 | Native API (partially Java)      |
+| Type 3 | Middleware                       |
+| Type 4 | **Pure Java driver (most used)** |
+
+Core JDBC Components:
+1. DriverManager:
+Manages database drivers and connections.
+
+2. Connection:
+Represents a connection to the database.
+Connection con = DriverManager.getConnection(url, user, pass);
+
+3. Statement:
+Used to execute SQL queries.
+
+Types:
+Statement
+PreparedStatement
+CallableStatement
+
+4. ResultSet:
+Holds data returned from SELECT query.
+
+JDBC Workflow:
+Load driver
+Create connection
+Create statement
+Execute query
+Process result
+Close resources
+
+JDBC Example (Basic)
+Table:
+CREATE TABLE employee (
+  id INT,
+  name VARCHAR(50)
+);
+
+Java Code:
+import java.sql.*;
+
+public class JdbcDemo {
+    public static void main(String[] args) throws Exception {
+
+        String url = "jdbc:mysql://localhost:3306/test";
+        String user = "root";
+        String pass = "root";
+
+        Connection con = DriverManager.getConnection(url, user, pass);
+        Statement stmt = con.createStatement();
+
+        ResultSet rs = stmt.executeQuery("SELECT * FROM employee");
+
+        while (rs.next()) {
+            System.out.println(rs.getInt("id") + " " + rs.getString("name"));
+        }
+
+        con.close();
+    }
+}
+
+Output:
+1 Sai
+2 Ram
+
+Statement vs PreparedStatement (VERY IMPORTANT)
+Statement:
+Statement stmt = con.createStatement();
+stmt.executeQuery("SELECT * FROM employee WHERE id=1");
+
+
+❌ SQL Injection risk
+❌ Slow (query compiled every time)
+
+PreparedStatement:
+PreparedStatement ps =
+    con.prepareStatement("SELECT * FROM employee WHERE id=?");
+ps.setInt(1, 1);
+
+
+✔ Prevents SQL Injection
+✔ Faster (pre-compiled)
+✔ Recommended
+
+PreparedStatement Example:
+PreparedStatement ps =
+    con.prepareStatement("INSERT INTO employee VALUES (?, ?)");
+
+ps.setInt(1, 3);
+ps.setString(2, "John");
+ps.executeUpdate();
+
+Output:
+1 row inserted
+
+CallableStatement (Stored Procedure)
+Stored Procedure:
+CREATE PROCEDURE getEmployee()
+BEGIN
+  SELECT * FROM employee;
+END;
+
+Java Code:
+CallableStatement cs = con.prepareCall("{call getEmployee()}");
+ResultSet rs = cs.executeQuery();
+
+JDBC Transactions
+Default Behavior:
+
+Auto-commit = true
+
+Manual Transaction:
+con.setAutoCommit(false);
+
+try {
+    stmt.executeUpdate("UPDATE account SET bal=bal-100 WHERE id=1");
+    stmt.executeUpdate("UPDATE account SET bal=bal+100 WHERE id=2");
+    con.commit();
+} catch (Exception e) {
+    con.rollback();
+}
+
+Batch Processing (Performance)
+PreparedStatement ps =
+    con.prepareStatement("INSERT INTO employee VALUES (?, ?)");
+
+ps.setInt(1, 4);
+ps.setString(2, "A");
+ps.addBatch();
+
+ps.setInt(1, 5);
+ps.setString(2, "B");
+ps.addBatch();
+
+ps.executeBatch();
+
+Output:
+Batch executed successfully
+
+JDBC Exception Handling
+SQLException
+getMessage()
+getErrorCode()
+getSQLState()
+
+JDBC Best Practices:
+
+✔ Use PreparedStatement
+✔ Close resources using try-with-resources
+✔ Use connection pooling
+✔ Avoid hard-coded credentials
+✔ Handle transactions properly
+
+JDBC in Spring Boot (Real World)
+
+Spring replaces raw JDBC with:
+JdbcTemplate
+NamedParameterJdbcTemplate
+
+JdbcTemplate Example:
+jdbcTemplate.query(
+  "SELECT * FROM employee",
+  (rs, rowNum) -> rs.getString("name")
+);
+
+
+✔ No boilerplate
+✔ Auto resource handling
+
+Interview Questions & Answers (Sequential)
+Q1: What is JDBC?
+Answer:
+JDBC is a Java API that allows Java applications to interact with relational databases.
+
+Q2: What are JDBC drivers?
+Answer:
+Drivers convert JDBC calls into database-specific calls.
+
+Q3: Which JDBC driver is commonly used?
+Answer:
+Type 4 (Pure Java Driver).
+
+Q4: Difference between Statement and PreparedStatement?
+Answer:
+PreparedStatement is faster, safer, and prevents SQL injection.
+
+Q5: What is SQL Injection?
+Answer:
+A security vulnerability where malicious SQL is injected via input.
+
+Q6: How does JDBC handle transactions?
+Answer:
+Using commit() and rollback().
+
+Q7: What is auto-commit?
+Answer:
+Each SQL statement is committed automatically if auto-commit is true.
+
+Q8: What is batch processing?
+Answer:
+Executing multiple SQL statements together for performance.
+
+Q9: Why JDBC is not preferred directly in Spring?
+Answer:
+Too much boilerplate code and manual resource handling.
+
+Q10: What replaces JDBC in Spring?
+Answer:
+JdbcTemplate, JPA, Hibernate.
