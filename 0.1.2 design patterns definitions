@@ -1,0 +1,237 @@
+Definition:
+
+A Design Pattern is a general, reusable solution to a commonly occurring problem in software design.
+It represents best practices, not finished code.
+
+Key Characteristics:
+Language independent concept
+Improves code quality
+Promotes loose coupling
+Enhances scalability & maintainability
+Widely used in Spring Framework
+
+Classification of Design Patterns:
+Design patterns are classified based on intent.
+
+1️⃣ Creational Design Patterns
+Definition:
+Creational patterns deal with object creation mechanisms, trying to create objects in a manner suitable to the situation.
+
+1. Singleton Pattern
+Definition:
+
+Ensures only one instance of a class exists and provides a global access point.
+
+Key Points:
+Private constructor
+Static instance
+Thread safety is important
+
+Real-Time Usage:
+Logging
+Configuration
+Spring Beans (default scope)
+
+2. Factory Pattern
+Definition:
+
+Defines an interface for creating objects but lets subclasses decide which class to instantiate.
+
+Key Points:
+Hides object creation logic
+Promotes loose coupling
+
+Spring Usage:
+BeanFactory
+ApplicationContext
+
+3. Abstract Factory Pattern
+Definition:
+
+Provides an interface for creating families of related or dependent objects without specifying their concrete classes.
+
+Key Difference from Factory:
+Factory → creates one object
+Abstract Factory → creates related objects
+
+4. Builder Pattern
+Definition:
+Separates the construction of a complex object from its representation so that the same construction process can create different representations.
+
+Key Points:
+Avoids telescoping constructors
+Immutable objects possible
+
+Real Usage:
+StringBuilder
+Lombok @Builder
+
+2️⃣ Structural Design Patterns
+Definition:
+
+Structural patterns deal with object composition, ensuring objects fit together efficiently.
+
+5. Adapter Pattern
+Definition:
+Converts the interface of a class into another interface that clients expect.
+
+Real Usage:
+Integrating legacy systems
+External API integration
+
+6. Decorator Pattern
+Definition:
+
+Attaches additional responsibilities to an object dynamically.
+
+Key Points:
+Alternative to subclassing
+Supports Open/Closed Principle
+
+Spring Usage:
+Filters
+Interceptors
+
+7. Proxy Pattern
+Definition:
+
+Provides a surrogate or placeholder for another object to control access to it.
+
+Spring Usage:
+AOP
+Security
+Transaction management
+
+3️⃣ Behavioral Design Patterns
+Definition:
+Behavioral patterns focus on communication and interaction between objects.
+
+8. Strategy Pattern
+Definition:
+Defines a family of algorithms, encapsulates each one, and makes them interchangeable.
+
+Key Points:
+Behavior selected at runtime
+Strongly supports OCP
+
+Spring Usage:
+Multiple implementations using @Qualifier
+
+9. Observer Pattern
+Definition:
+
+Defines a one-to-many dependency so that when one object changes state, all its dependents are notified.
+
+Microservices Usage:
+
+Event-driven architecture
+Kafka / RabbitMQ consumers
+
+10. Template Method Pattern
+Definition:
+
+Defines the skeleton of an algorithm, allowing subclasses to override specific steps.
+
+Key Points:
+
+Uses inheritance
+Final template method
+
+11. Command Pattern
+Definition:
+
+Encapsulates a request as an object, allowing parameterization of clients with different requests.
+
+Use Case:
+Queue operations
+Undo/Redo operations
+
+Sequential Interview Questions & Answers (Advanced Level)
+Q1: What is a design pattern?
+
+Answer:
+A design pattern is a reusable solution to a commonly occurring software design problem that improves code maintainability and flexibility.
+
+Q2: Why are design patterns important?
+
+Answer:
+They provide proven solutions, reduce design complexity, promote loose coupling, and align code with industry best practices.
+
+Q3: How many types of design patterns are there?
+
+Answer:
+Three types:
+
+Creational
+
+Structural
+
+Behavioral
+
+Q4: Which design pattern is most used in Spring Boot?
+
+Answer:
+Proxy, Factory, Strategy, Singleton.
+
+Q5: Is Spring Singleton same as Java Singleton?
+
+Answer:
+No. Spring singleton is per container, not per JVM.
+
+Q6: Difference between Factory and Abstract Factory?
+
+Answer:
+Factory creates a single object, whereas Abstract Factory creates families of related objects.
+
+Q7: When should you use Builder instead of constructor?
+
+Answer:
+When the object has many optional parameters and readability or immutability is required.
+
+Q8: How does Strategy pattern help in microservices?
+
+Answer:
+It allows switching business logic at runtime without modifying existing code.
+
+Q9: Which pattern supports Open/Closed Principle the most?
+
+Answer:
+Strategy and Decorator patterns.
+
+Q10: How does Spring AOP use Proxy pattern?
+
+Answer:
+Spring creates proxies around beans to add cross-cutting concerns like logging, transactions, and security.
+
+Q11: Difference between Decorator and Proxy?
+
+Answer:
+Decorator adds behavior dynamically, Proxy controls access to an object.
+
+Q12: Can Singleton break in multithreading?
+
+Answer:
+Yes, if not implemented with proper synchronization or double-checked locking.
+
+Q13: Why is Strategy preferred over if-else?
+
+Answer:
+It improves extensibility, readability, and adheres to Open/Closed Principle.
+
+Q14: Which design patterns are commonly used in REST APIs?
+
+Answer:
+
+Front Controller
+Strategy
+Adapter
+Proxy
+
+Q15: Is Singleton considered an anti-pattern?
+
+Answer:
+It can be, if it causes tight coupling or testing issues, but is valid when used carefully.
+
+One-Line Final Interview Summary:
+
+“Spring Boot internally uses Factory, Proxy, Strategy, and Singleton patterns extensively to achieve loose coupling and scalability.”
