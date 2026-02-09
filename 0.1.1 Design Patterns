@@ -1,0 +1,413 @@
+Definition:
+Design Patterns are proven, reusable solutions to commonly occurring software design problems.
+They are not code, but templates/guidelines for solving problems in a clean, maintainable way.
+
+Why Design Patterns? (Interview Favorite)
+Improves code maintainability
+Promotes loose coupling
+Makes code scalable & testable
+Widely used in Spring Boot & Microservices
+Helps in clean architecture
+
+Classification of Design Patterns:
+| Category       | Purpose                  |
+| -------------- | ------------------------ |
+| **Creational** | Object creation          |
+| **Structural** | Class/object composition |
+| **Behavioral** | Object interaction       |
+
+1️⃣ Creational Design Patterns
+1. Singleton Pattern
+Purpose:
+Ensure only one instance of a class exists.
+
+Use Cases:
+Configuration
+Logger
+Cache
+Thread pool
+Spring Beans (by default)
+
+Example (Thread-Safe – Best Practice)
+public class Singleton {
+
+    private static Singleton instance;
+
+    private Singleton() {}
+
+    public static synchronized Singleton getInstance() {
+        if (instance == null) {
+            instance = new Singleton();
+        }
+        return instance;
+    }
+}
+
+Output:
+Singleton s1 = Singleton.getInstance();
+Singleton s2 = Singleton.getInstance();
+
+System.out.println(s1 == s2);
+true
+
+Interview Tip:
+Spring beans are singleton scoped by default, but Spring Singleton ≠ JVM Singleton
+
+2. Factory Pattern
+Purpose:
+Create objects without exposing creation logic
+
+Example:
+interface Notification {
+    void notifyUser();
+}
+
+class EmailNotification implements Notification {
+    public void notifyUser() {
+        System.out.println("Email sent");
+    }
+}
+
+class SMSNotification implements Notification {
+    public void notifyUser() {
+        System.out.println("SMS sent");
+    }
+}
+
+Factory
+class NotificationFactory {
+    public static Notification create(String type) {
+        if (type.equals("EMAIL")) return new EmailNotification();
+        if (type.equals("SMS")) return new SMSNotification();
+        return null;
+    }
+}
+
+Output:
+Notification n = NotificationFactory.create("EMAIL");
+n.notifyUser();
+
+Email sent
+
+Spring Boot Usage:
+BeanFactory
+ApplicationContext
+
+3. Abstract Factory Pattern
+Purpose:
+Factory of factories (create related objects)
+
+Example:
+interface Button {
+    void paint();
+}
+
+class WindowsButton implements Button {
+    public void paint() {
+        System.out.println("Windows Button");
+    }
+}
+
+class MacButton implements Button {
+    public void paint() {
+        System.out.println("Mac Button");
+    }
+}
+
+interface GUIFactory {
+    Button createButton();
+}
+
+class WindowsFactory implements GUIFactory {
+    public Button createButton() {
+        return new WindowsButton();
+    }
+}
+
+Output:
+Windows Button
+
+Interview Line:
+Factory creates one object, Abstract Factory creates families of objects
+
+4. Builder Pattern
+Purpose:
+Create complex objects step-by-step
+
+Example:
+class User {
+    private String name;
+    private int age;
+
+    private User(UserBuilder builder) {
+        this.name = builder.name;
+        this.age = builder.age;
+    }
+
+    static class UserBuilder {
+        private String name;
+        private int age;
+
+        UserBuilder name(String name) {
+            this.name = name;
+            return this;
+        }
+
+        UserBuilder age(int age) {
+            this.age = age;
+            return this;
+        }
+
+        User build() {
+            return new User(this);
+        }
+    }
+}
+
+Output:
+User user = new User.UserBuilder()
+                .name("Sai")
+                .age(28)
+                .build();
+
+Real Usage:
+StringBuilder
+Lombok @Builder
+
+2️⃣ Structural Design Patterns
+5. Adapter Pattern
+Purpose:
+Convert one interface into another
+
+Example:
+interface PaymentGateway {
+    void pay(int amount);
+}
+
+class OldPaymentSystem {
+    void makePayment(int amount) {
+        System.out.println("Paid " + amount);
+    }
+}
+
+class PaymentAdapter implements PaymentGateway {
+    private OldPaymentSystem oldSystem = new OldPaymentSystem();
+
+    public void pay(int amount) {
+        oldSystem.makePayment(amount);
+    }
+}
+
+Output:
+Paid 500
+
+Spring Usage:
+Controller → Service → External API adapters
+
+6. Decorator Pattern
+Purpose:
+Add behavior dynamically
+
+Example:
+interface Coffee {
+    double cost();
+}
+
+class SimpleCoffee implements Coffee {
+    public double cost() {
+        return 50;
+    }
+}
+
+class MilkDecorator implements Coffee {
+    private Coffee coffee;
+
+    MilkDecorator(Coffee coffee) {
+        this.coffee = coffee;
+    }
+
+    public double cost() {
+        return coffee.cost() + 20;
+    }
+}
+
+Output:
+Coffee coffee = new MilkDecorator(new SimpleCoffee());
+System.out.println(coffee.cost());
+
+70
+
+Spring Usage:
+Filters
+Interceptors
+
+7. Proxy Pattern
+Purpose:
+Control access to object
+
+Example:
+interface Service {
+    void execute();
+}
+
+class RealService implements Service {
+    public void execute() {
+        System.out.println("Executing service");
+    }
+}
+
+class ServiceProxy implements Service {
+    private RealService service;
+
+    public void execute() {
+        if (service == null) {
+            service = new RealService();
+        }
+        System.out.println("Logging...");
+        service.execute();
+    }
+}
+
+Output:
+Logging...
+Executing service
+
+Spring Usage:
+AOP
+Transaction Management
+Security
+
+3️⃣ Behavioral Design Patterns
+8. Strategy Pattern (VERY IMPORTANT)
+Purpose:
+Encapsulate interchangeable algorithms
+
+Example:
+interface PaymentStrategy {
+    void pay(int amount);
+}
+
+class CreditCardPayment implements PaymentStrategy {
+    public void pay(int amount) {
+        System.out.println("Paid using Credit Card: " + amount);
+    }
+}
+
+class PaymentContext {
+    private PaymentStrategy strategy;
+
+    PaymentContext(PaymentStrategy strategy) {
+        this.strategy = strategy;
+    }
+
+    void execute(int amount) {
+        strategy.pay(amount);
+    }
+}
+
+Output:
+Paid using Credit Card: 1000
+
+Spring Usage:
+Multiple implementations injected via interface
+
+9. Observer Pattern
+Purpose:
+Notify multiple objects on state change
+
+Example:
+interface Observer {
+    void update(String msg);
+}
+
+class User implements Observer {
+    public void update(String msg) {
+        System.out.println("Notification: " + msg);
+    }
+}
+
+class Subject {
+    List<Observer> observers = new ArrayList<>();
+
+    void add(Observer o) {
+        observers.add(o);
+    }
+
+    void notifyAll(String msg) {
+        observers.forEach(o -> o.update(msg));
+    }
+}
+
+Output:
+Notification: Order Placed
+
+Microservices Usage:
+Event-driven architecture
+Kafka consumers
+
+10. Template Method Pattern
+Purpose:
+Define algorithm skeleton, let subclasses implement steps
+
+  Example:
+  abstract class PaymentProcess {
+      abstract void validate();
+      abstract void pay();
+  
+      final void process() {
+          validate();
+          pay();
+      }
+  }
+  
+  Output:
+  Validating
+  Paying
+
+11. Command Pattern
+Purpose:
+  Encapsulate request as object
+  
+  Example:
+  interface Command {
+      void execute();
+  }
+  
+  class LightOnCommand implements Command {
+      public void execute() {
+          System.out.println("Light ON");
+      }
+  }
+  
+  Output:
+  Light ON
+
+Design Patterns in Spring Boot (Important)
+
+
+Q1: Which pattern is most used in Spring?
+👉 Proxy, Factory, Strategy
+
+Q2: Difference between Factory & Strategy?
+Factory → object creation
+Strategy → algorithm selection
+
+Q3: Is Singleton anti-pattern?
+👉 Not always. Thread safety & testing matter.
+
+Q4: How Spring handles multiple implementations?
+👉 Strategy Pattern using @Qualifier
+
+Q5: Which pattern supports Open/Closed Principle?
+👉 Strategy, Decorator
+
+One-Line Interview Answers
+Creational → Object creation
+Structural → Object composition
+
+Behavioral → Object interaction
+Spring = Patterns everywhere
+Loose coupling is key
+
+Final Interview Tip:
+“I mostly use Strategy, Factory, Proxy, and Builder patterns in real-world Spring Boot microservices.”
