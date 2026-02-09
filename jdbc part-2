@@ -1,0 +1,207 @@
+JDBC Core Components & Workflow – Definitions + Interview Q&A
+1️⃣ Statement
+Definition:
+Statement is a JDBC interface used to execute static SQL queries without parameters.
+
+Key Characteristics:
+SQL is compiled every time
+Vulnerable to SQL Injection
+Not suitable for dynamic queries
+Slower compared to PreparedStatement
+
+Example:
+Statement stmt = con.createStatement();
+ResultSet rs = stmt.executeQuery("SELECT * FROM employee");
+
+2️⃣ PreparedStatement
+Definition:
+
+PreparedStatement is a JDBC interface used to execute precompiled, parameterized SQL queries.
+
+Key Characteristics:
+Prevents SQL Injection
+Better performance (precompiled)
+Supports dynamic values using placeholders (?)
+Most commonly used in real projects
+
+Example:
+PreparedStatement ps =
+    con.prepareStatement("SELECT * FROM employee WHERE id=?");
+ps.setInt(1, 1);
+ResultSet rs = ps.executeQuery();
+
+3️⃣ CallableStatement
+Definition:
+CallableStatement is a JDBC interface used to execute stored procedures in the database.
+
+Key Characteristics:
+Used for complex business logic at DB level
+Supports IN, OUT, and INOUT parameters
+Faster for bulk or complex operations
+
+Example:
+CallableStatement cs =
+    con.prepareCall("{call getEmployee()}");
+ResultSet rs = cs.executeQuery();
+
+Comparison (Very Important for Interview)
+| Feature          | Statement | PreparedStatement | CallableStatement |
+| ---------------- | --------- | ----------------- | ----------------- |
+| SQL Injection    | ❌ Yes     | ✅ No              | ✅ No              |
+| Precompiled      | ❌ No      | ✅ Yes             | ✅ Yes             |
+| Parameters       | ❌ No      | ✅ Yes             | ✅ Yes             |
+| Performance      | Low       | High              | High              |
+| Stored Procedure | ❌ No      | ❌ No              | ✅ Yes             |
+
+4️⃣ ResultSet
+Definition:
+
+ResultSet is a JDBC interface that holds the data returned by a SELECT query.
+
+Key Characteristics:
+
+Cursor-based
+
+Reads data row by row
+
+Supports next(), getInt(), getString()
+
+Example:
+while (rs.next()) {
+    System.out.println(
+        rs.getInt("id") + " " + rs.getString("name")
+    );
+}
+
+Output:
+1 Sai
+2 Ram
+
+Types of ResultSet
+| Type                    | Description                     |
+| ----------------------- | ------------------------------- |
+| TYPE_FORWARD_ONLY       | Default, one direction          |
+| TYPE_SCROLL_INSENSITIVE | Scrollable, no DB changes       |
+| TYPE_SCROLL_SENSITIVE   | Scrollable, reflects DB changes |
+
+JDBC Workflow (Step-by-Step)
+1️⃣ Load Driver
+Definition:
+
+Loads the JDBC driver into memory.
+
+Class.forName("com.mysql.cj.jdbc.Driver");
+
+
+📌 Note:
+From JDBC 4.0, this step is optional.
+
+2️⃣ Create Connection
+Definition:
+
+Establishes a connection between Java application and database.
+
+Connection con =
+    DriverManager.getConnection(url, user, password);
+
+3️⃣ Create Statement
+Definition:
+
+Creates a statement object to execute SQL.
+
+PreparedStatement ps = con.prepareStatement(sql);
+
+4️⃣ Execute Query
+Definition:
+
+Executes SQL query.
+
+ResultSet rs = ps.executeQuery();
+
+5️⃣ Process Result
+Definition:
+
+Reads data from ResultSet.
+
+while (rs.next()) {
+    System.out.println(rs.getString("name"));
+}
+
+6️⃣ Close Resources
+Definition:
+
+Releases database resources to avoid memory leaks.
+
+rs.close();
+ps.close();
+con.close();
+
+✔ Best practice → try-with-resources
+
+Interview Questions & Answers (Sequential)
+Q1: What is Statement in JDBC?
+Answer:
+Statement is used to execute static SQL queries without parameters.
+
+Q2: Why PreparedStatement is preferred over Statement?
+Answer:
+PreparedStatement is faster, prevents SQL injection, and supports parameterized queries.
+
+Q3: What is SQL Injection?
+Answer:
+A security vulnerability where malicious SQL is injected through input parameters.
+
+Q4: When do you use CallableStatement?
+Answer:
+When executing stored procedures from Java.
+
+Q5: What is ResultSet?
+Answer:
+ResultSet holds data returned from a SELECT query and allows row-by-row processing.
+
+Q6: Is ResultSet thread-safe?
+Answer:
+No, ResultSet is not thread-safe.
+
+Q7: What are the steps in JDBC workflow?
+
+Answer:
+Load driver → Create connection → Create statement → Execute query → Process result → Close resources.
+
+Q8: Is loading driver mandatory?
+Answer:
+No, from JDBC 4.0 onwards drivers are auto-loaded.
+
+Q9: What happens if resources are not closed?
+Answer:
+Connection leaks occur, leading to application crash.
+
+Q10: How to avoid connection leaks?
+Answer:
+Use try-with-resources and connection pooling.
+
+Tricky Interview Questions (4+ Years)
+🔥 Q11: Can PreparedStatement be reused?
+Answer:
+Yes, it can be reused with different parameter values.
+
+🔥 Q12: Difference between execute(), executeQuery(), executeUpdate()?
+Answer:
+execute() → any SQL
+executeQuery() → SELEC
+executeUpdate() → INSERT/UPDATE/DELETE
+
+🔥 Q13: Can ResultSet move backward?
+Answer:
+Only if scrollable ResultSet is used.
+
+🔥 Q14: Why is CallableStatement faster?
+Answer:
+Stored procedures are precompiled and run closer to the database.
+
+🔥 Q15: Why JDBC is not directly used in Spring Boot?
+Answer:
+Too much boilerplate and manual resource handling.
+
+Final One-Line Interview Summary:
+“In JDBC, PreparedStatement is preferred for security and performance, CallableStatement for stored procedures, and proper workflow & resource handling are critical for production systems.”
