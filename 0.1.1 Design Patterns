@@ -17,7 +17,24 @@ Classification of Design Patterns:
 | **Behavioral** | Object interaction       |
 
 1️⃣ Creational Design Patterns
+Definition:
+Creational patterns deal with object creation mechanisms, trying to create objects in a manner suitable to the situation.
+
 1. Singleton Pattern
+Definition:
+
+Ensures only one instance of a class exists and provides a global access point.
+
+Key Points:
+Private constructor
+Static instance
+Thread safety is important
+
+Real-Time Usage:
+Logging
+Configuration
+Spring Beans (default scope)
+
 Purpose:
 Ensure only one instance of a class exists.
 
@@ -54,8 +71,17 @@ Interview Tip:
 Spring beans are singleton scoped by default, but Spring Singleton ≠ JVM Singleton
 
 2. Factory Pattern
-Purpose:
-Create objects without exposing creation logic
+Definition:
+
+Defines an interface for creating objects but lets subclasses decide which class to instantiate.
+
+Key Points:
+Hides object creation logic
+Promotes loose coupling
+
+Spring Usage:
+BeanFactory
+ApplicationContext
 
 Example:
 interface Notification {
@@ -94,6 +120,17 @@ BeanFactory
 ApplicationContext
 
 3. Abstract Factory Pattern
+ Abstract Factory Pattern
+Definition:
+
+Provides an interface for creating families of related or dependent objects without specifying their concrete classes.
+
+Key Difference from Factory:
+Factory → creates one object
+Abstract Factory → creates related objects
+Purpose:
+Create objects without exposing creation logic
+
 Purpose:
 Factory of factories (create related objects)
 
