@@ -69,6 +69,7 @@ true
 
 Interview Tip:
 Spring beans are singleton scoped by default, but Spring Singleton ≠ JVM Singleton
+---------------------------------------------------------------------------------------------
 
 2. Factory Pattern
 Definition:
@@ -118,6 +119,8 @@ Email sent
 Spring Boot Usage:
 BeanFactory
 ApplicationContext
+
+-----------------------------------------------------------------------------------
 
 3. Abstract Factory Pattern
  Abstract Factory Pattern
